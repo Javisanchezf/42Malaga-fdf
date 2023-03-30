@@ -6,7 +6,7 @@
 #    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/03/30 17:38:24 by javiersa         ###   ########.fr        #
+#    Updated: 2023/03/30 17:42:24 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,9 @@ gitignore:
 
 .PHONY : all clean fclean re bonus compile git gitignore \
 	libftplusmake libftplusclean libftplusfclean libftplusre
+submodules:
+	@git submodule update --init --recursive
+	@echo "$(GREEN)The submodules have been created and updated successfully.$(DEFAULT)"
 
 #COLORS
 RED = \033[1;31m
