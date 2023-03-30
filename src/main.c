@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/03/30 21:42:56 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/03/30 21:55:33 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int32_t	main(void)
 		error();
 	// memset(img->pixels, 127, img->width * img->height * sizeof(int32_t));
 	disp = calloc(img->width * img->height , sizeof(int32_t));
+	ft_printf("%d", (img->width * img->height , sizeof(int32_t)));
 	 unsigned long i;
    for(i=0; i<(img->width * img->height*sizeof(int32_t)); i++) 
    {
