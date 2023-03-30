@@ -6,7 +6,7 @@
 #    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/03/30 17:42:24 by javiersa         ###   ########.fr        #
+#    Updated: 2023/03/30 20:13:07 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,12 @@ CFLAGS = -Wall -Werror -Wextra
 CC = gcc
 CLEAN = rm -Rf
 LIBFTPLUS = libftplus
+MLX42 = MLX42
 SRC = src/read_map.c
 
 OBJS := $(SRC:.c=.o)
 
-all: libftplusmake $(NAME)
+all: libftplusmake mlx42make $(NAME)
 	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a -o $(PROGRAM)
 	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
 .c.o:
@@ -30,14 +31,14 @@ all: libftplusmake $(NAME)
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@echo "$(GREEN)$(PERSONALNAME) -> Objects and library created successfully.$(DEFAULT)"
-clean: libftplusclean
+clean: libftplusclean mlx42clean
 	@$(CLEAN) ./$(OBJS)
 	@echo "$(RED)$(PERSONALNAME) -> Objects files deleted.$(DEFAULT)"
-fclean: libftplusfclean
+fclean: libftplusfclean mlx42fclean
 	@$(CLEAN) ./$(OBJS)
 	@$(CLEAN) ./$(NAME) $(PROGRAM)
 	@echo "$(RED)$(PERSONALNAME) -> Library and objects files deleted.$(DEFAULT)"
-re: libftplusre fclean all
+re: libftplusre mlx42re fclean all
 
 libftplusmake:
 	@make -C $(LIBFTPLUS)
@@ -46,6 +47,14 @@ libftplusclean:
 libftplusfclean:
 	@make fclean -C $(LIBFTPLUS)
 libftplusre: libftplusclean libftplusmake
+
+mlx42make:
+	@make -C $(MLX42)
+mlx42clean:
+	@make clean -C $(MLX42)
+mlx42fclean:
+	@make fclean -C $(MLX42)
+mlx42re: libftplusclean libftplusmake
 
 #Personal use
 git: fclean gitignore
