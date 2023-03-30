@@ -6,12 +6,13 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/03/29 22:25:12 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:21:00 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libftplus/libftplus.h"
 #include <math.h>
+#include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_projection
 {
