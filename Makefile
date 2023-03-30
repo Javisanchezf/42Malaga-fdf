@@ -6,11 +6,12 @@
 #    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/03/30 20:13:07 by javiersa         ###   ########.fr        #
+#    Updated: 2023/03/30 20:50:35 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf.a
+USER = javiersa
 PERSONALNAME = fdf
 PROGRAM = fdf
 CFLAGS = -Wall -Werror -Wextra
@@ -18,12 +19,12 @@ CC = gcc
 CLEAN = rm -Rf
 LIBFTPLUS = libftplus
 MLX42 = MLX42
-SRC = src/read_map.c
+SRC = src/read_map.c src/main.c
 
 OBJS := $(SRC:.c=.o)
 
 all: libftplusmake mlx42make $(NAME)
-	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a -o $(PROGRAM)
+	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a $(MLX42)/libmlx42.a -I include -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $(PROGRAM)
 	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}

@@ -6,13 +6,11 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/03/30 20:21:00 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/03/30 20:48:20 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftplus/libftplus.h"
-#include <math.h>
-#include "../MLX42/include/MLX42/MLX42.h"
+#include "fdf.h"
 
 typedef struct s_projection
 {
@@ -170,29 +168,29 @@ void	ft_map_construct(char *file, t_projection *map)
 	close(fd);
 }
 
-int	main(int narg, char **argv)
-{
-	t_projection	map;
-	int				i;
+// int	main(int narg, char **argv)
+// {
+// 	t_projection	map;
+// 	int				i;
 
-	if (narg != 2 || !argv[1])
-		return (1);
-	ft_map_construct(argv[1], &map);
-	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", map.width, map.height);
-	i = 0;
-	while(i < (map.height * map.width))
-	{
-		ft_printf("(%d,", map.z[i]);
-		ft_printf("%d)\t", map.color[i]);
-		// ft_printf("%d ", map.z[i]);
-		if (i != 0 && (i + 1) % map.width == 0)
-			ft_printf("\n");
-		i++;
-	}
-	ft_free_and_null((void **) &map.color);
-	ft_free_and_null((void **) &map.z);
-	return (0);
-}
+// 	if (narg != 2 || !argv[1])
+// 		return (1);
+// 	ft_map_construct(argv[1], &map);
+// 	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", map.width, map.height);
+// 	i = 0;
+// 	while(i < (map.height * map.width))
+// 	{
+// 		ft_printf("(%d,", map.z[i]);
+// 		ft_printf("%d)\t", map.color[i]);
+// 		// ft_printf("%d ", map.z[i]);
+// 		if (i != 0 && (i + 1) % map.width == 0)
+// 			ft_printf("\n");
+// 		i++;
+// 	}
+// 	ft_free_and_null((void **) &map.color);
+// 	ft_free_and_null((void **) &map.z);
+// 	return (0);
+// }
 
 // #include "minilibx/mlx.h"
 // int main(void)
