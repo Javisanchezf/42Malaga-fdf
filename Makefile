@@ -6,7 +6,7 @@
 #    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/03/30 20:50:35 by javiersa         ###   ########.fr        #
+#    Updated: 2023/03/31 20:50:41 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,18 +28,19 @@ all: libftplusmake mlx42make $(NAME)
 	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
-
+	@echo "$(GREEN)Compiling:$(DEFAULT) $(notdir $<)"
+	
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
-	@echo "$(GREEN)$(PERSONALNAME) -> Objects and library created successfully.$(DEFAULT)"
+	@echo "$(MAGENTA)Library $(NAME) created successfully.$(DEFAULT)"
 clean: libftplusclean mlx42clean
 	@$(CLEAN) ./$(OBJS)
-	@echo "$(RED)$(PERSONALNAME) -> Objects files deleted.$(DEFAULT)"
-fclean: libftplusfclean mlx42fclean
-	@$(CLEAN) ./$(OBJS)
-	@$(CLEAN) ./$(NAME) $(PROGRAM)
-	@echo "$(RED)$(PERSONALNAME) -> Library and objects files deleted.$(DEFAULT)"
+	@echo "$(RED)Removing:$(DEFAULT) All objects from $(PERSONALNAME)."
+fclean: clean libftplusfclean mlx42fclean
+	@$(CLEAN) ./$(NAME)
+	@echo "$(RED)Removing:$(DEFAULT) Library $(NAME)."
 re: libftplusre mlx42re fclean all
+
 
 libftplusmake:
 	@make -C $(LIBFTPLUS)
@@ -57,24 +58,39 @@ mlx42fclean:
 	@make fclean -C $(MLX42)
 mlx42re: libftplusclean libftplusmake
 
-#Personal use
-git: fclean gitignore
-	git add *
-	git commit -m "Little changes"
-	git push
-	git ls-files
-gitignore:
-	@echo ".*\n*.out\n*.o\n*.a">.gitignore
-	@echo "$(GREEN)Gitignore created successfully.$(DEFAULT)"
-
-.PHONY : all clean fclean re bonus compile git gitignore \
-	libftplusmake libftplusclean libftplusfclean libftplusre
 submodules:
 	@git submodule update --init --recursive
 	@echo "$(GREEN)The submodules have been created and updated successfully.$(DEFAULT)"
 
+.PHONY : all clean fclean re bonus compile git gitignore submodules \
+	libftplusmake libftplusclean libftplusfclean libftplusre
+
+#Personal use
+git: fclean gitignore
+	@git add *
+	@echo "$(BOLD)$(YELLOW)Git:$(WHITE) Adding all archives.$(DEFAULT)"
+	@git commit -m "Little changes"
+	@echo "$(BOLD)$(CYAN)Git:$(WHITE) Commit this changes with "Little changes".$(DEFAULT)"
+	@git push
+	@echo "$(BOLD)$(GREEN)Git:$(WHITE) Pushing all changes.$(DEFAULT)"
+gitignore:
+	@echo ".*\n*.out\n*.o\n*.a">.gitignore
+	@echo "$(GREEN)Creating:$(DEFAULT) Gitignore."
+42prepare: submodules
+	@rm -rf $(LIBFT)/.git
+	@rm -rf $(NEXTILE)/.git
+	@rm -rf $(PRINTF)/.git
+	@rm -rf .git .gitmodules
+	@echo "$(GREEN)All .git removed.$(DEFAULT)"
+
 #COLORS
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[1;33m
-DEFAULT = \033[0m
+BOLD	:= \033[1m
+BLACK	:= \033[30;1m
+RED		:= \033[31;1m
+GREEN	:= \033[32;1m
+YELLOW	:= \033[33;1m
+BLUE	:= \033[34;1m
+MAGENTA	:= \033[35;1m
+CYAN	:= \033[36;1m
+WHITE	:= \033[37;1m
+DEFAULT	:= \033[0m
