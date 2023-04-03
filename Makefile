@@ -26,6 +26,9 @@ OBJS := $(SRC:.c=.o)
 all: libftplusmake mlx42make $(NAME)
 	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a $(MLX42)/libmlx42.a -I include -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $(PROGRAM)
 	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
+ubuntu: libftplusmakeubuntu mlx42make $(NAME)
+	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a $(MLX42)/libmlx42.a -I include -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $(PROGRAM)
+	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
 	@echo "$(GREEN)Compiling:$(DEFAULT) $(notdir $<)"
@@ -37,13 +40,16 @@ clean: libftplusclean mlx42clean
 	@$(CLEAN) ./$(OBJS)
 	@echo "$(RED)Removing:$(DEFAULT) All objects from $(PERSONALNAME)."
 fclean: clean libftplusfclean mlx42fclean
-	@$(CLEAN) ./$(NAME)
+	@$(CLEAN) ./$(NAME) ./$(PROGRAM)
 	@echo "$(RED)Removing:$(DEFAULT) Library $(NAME)."
+	@echo "$(RED)Removing:$(DEFAULT) Program $(PROGRAM)."
 re: libftplusre mlx42re fclean all
 
 
 libftplusmake:
 	@make -C $(LIBFTPLUS)
+libftplusmakeubuntu:
+	@make ubuntu -C $(LIBFTPLUS)
 libftplusclean:
 	@make clean -C $(LIBFTPLUS)
 libftplusfclean:
