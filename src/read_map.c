@@ -6,19 +6,28 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/03/30 20:48:20 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:01:04 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-typedef struct s_projection
+typedef struct s_fdfmap
 {
-	int		*z;
-	int		*color;
-	int		width;
-	int		height;
-}					t_projection;
+	int		z;
+	int		r;
+	int		g;
+	int		b;
+	int		a;
+}					t_fdfmap;
+
+typedef struct s_fdfvariables
+{
+	t_fdfmap	*map;
+	int			map_width;
+	int			map_height;
+	int			zoom;
+}					t_fdfvariables;
 
 int	ft_isspace(char c)
 {
@@ -80,24 +89,33 @@ int	ft_takenbr(char *file, int start, int size)
 	return (intnbr);
 }
 
-int	ft_takecolor(char *file, int start, int size)
+void	takecoloraux(char *file, int *i, int *color)
 {
-	char			nbr[12];
-	int				i;
-	int				intnbr;
+	char		nbr[3];
 
-	i = 0;
-	while (i < size && i < 11)
-	{
-		nbr[i] = file[start + i];
-		i++;
-	}
-	nbr[i] = 0;
-	intnbr = ft_hex_to_dec(nbr);
-	return (intnbr);
+	nbr[0] = file[*i + 1];
+	nbr[1] = file[*i + 2];
+	nbr[2] = 0;
+	*color = ft_hex_to_dec(nbr);
+	*i += 2;
 }
 
-void	ft_extract_colorandz(char *file, t_projection *map)
+void	ft_takecolor(char *file, t_fdfvariables *fdf, int *i, int position)
+{
+	(*i)++;
+	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		takecoloraux(file, i, &fdf->map[position].r);
+	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		takecoloraux(file, i, &fdf->map[position].g);
+	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		takecoloraux(file, i, &fdf->map[position].b);
+	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		takecoloraux(file, i, &fdf->map[position].a);
+	else
+		fdf->map[position].a = 255;
+}
+
+void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 {
 	int		i;
 	int		j;
@@ -105,42 +123,36 @@ void	ft_extract_colorandz(char *file, t_projection *map)
 
 	i = 0;
 	k = 0;
-	map->z = malloc((map->height * map->width) * sizeof(int)); //CONTEMPLAR SI FALLA EL MALLOC
-	map->color = malloc((map->height * map->width) * sizeof(int)); //CONTEMPLAR SI FALLA EL MALLOC
-	while (file[i] && k < (map->height * map->width))
+	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap)); //CONTEMPLAR SI FALLA EL MALLOC
+	while (file[i] && k < (fdf->map_height * fdf->map_width))
 	{
 		while (ft_isspace(file[i]))
 			i++;
 		j = i;
 		while (ft_isdigit(file[i]) || file[i] == '-')
 			i++;
-		map->z[k] = ft_takenbr(file, j, i - j);
+		fdf->map[k].z = ft_takenbr(file, j, i - j);
 		if (file[i] == ',')
-		{
-			i += 9;
-			map->color[k] = ft_takecolor(file, i - 6, 6);
-		}
-		else
-			map->color[k] = 0;
-		if (k % map->width == 0)
-			ft_printf("Construido %d/%d\n", (k / map->width) + 1, map->height);
+			ft_takecolor(file, fdf, &i, k);
+		if (k % fdf->map_width == 0)
+			ft_printf("Construido %d/%d\n", (k / fdf->map_width) + 1, fdf->map_height);
 		k++;
 	}
 }
 
-void	ft_readmap(int fd, t_projection *map)
+void	ft_readmap(int fd, t_fdfvariables *fdf)
 {
 	char	*line;
 	char	*aux;
 
-	map->height = 0;
+	fdf->map_height = 0;
 	line = get_next_line(fd);
-	map->width = ft_countwords(line);
+	fdf->map_width = ft_countwords(line);
 	aux = ft_calloc(1, 1);
 	while (line)
 	{
-		map->height++;
-		if (map->width != ft_countwords(line))
+		fdf->map_height++;
+		if (fdf->map_width != ft_countwords(line))
 		{
 			ft_free_and_null((void **) &aux);
 			ft_free_and_null((void **) &line);
@@ -150,11 +162,11 @@ void	ft_readmap(int fd, t_projection *map)
 		aux = ft_freeandjoin(aux, line);
 		line = get_next_line(fd);
 	}
-	ft_extract_colorandz(aux, map);
+	ft_extract_colorandz(aux, fdf);
 	ft_free_and_null((void **) &aux);
 }
 
-void	ft_map_construct(char *file, t_projection *map)
+void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 {
 	int		fd;
 
@@ -164,33 +176,40 @@ void	ft_map_construct(char *file, t_projection *map)
 		ft_printf("Error al abrir el archivo.\n");
 		exit(EXIT_FAILURE);
 	}
-	ft_readmap(fd, map);
+	ft_readmap(fd, fdf);
 	close(fd);
 }
 
-// int	main(int narg, char **argv)
-// {
-// 	t_projection	map;
-// 	int				i;
+int	main(int narg, char **argv)
+{
+	t_fdfvariables	fdf;
+	int				i;
 
-// 	if (narg != 2 || !argv[1])
-// 		return (1);
-// 	ft_map_construct(argv[1], &map);
-// 	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", map.width, map.height);
-// 	i = 0;
-// 	while(i < (map.height * map.width))
-// 	{
-// 		ft_printf("(%d,", map.z[i]);
-// 		ft_printf("%d)\t", map.color[i]);
-// 		// ft_printf("%d ", map.z[i]);
-// 		if (i != 0 && (i + 1) % map.width == 0)
-// 			ft_printf("\n");
-// 		i++;
-// 	}
-// 	ft_free_and_null((void **) &map.color);
-// 	ft_free_and_null((void **) &map.z);
-// 	return (0);
-// }
+	if (narg != 2 || !argv[1])
+		return (1);
+	ft_map_construct(argv[1], &fdf);
+	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", fdf.map_width, fdf.map_height);
+	i = 0;
+	while(i < (fdf.map_height * fdf.map_width))
+	{
+		ft_printf("(%d,", fdf.map[i].z);
+		if (i != 0 && (i + 1) % fdf.map_width == 0)
+			ft_printf("\n");
+		i++;
+	}
+	ft_free_and_null((void **) &fdf.map);
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
 
 // #include "minilibx/mlx.h"
 // int main(void)
