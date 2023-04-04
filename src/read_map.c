@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/04 21:01:04 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:44:19 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct s_fdfmap
 	int		g;
 	int		b;
 	int		a;
+	int		x_iso;
+	int		y_iso;
 }					t_fdfmap;
 
 typedef struct s_fdfvariables
@@ -166,6 +168,24 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 	ft_free_and_null((void **) &aux);
 }
 
+void	ft_initial_views_and_zoom(t_fdfvariables	*fdf)
+{
+	int	i;
+
+	i = -1;
+	if ((fdf->map_height / HEIGHT) > (fdf->map_width / WIDTH))
+		fdf->zoom = (fdf->map_height / HEIGHT);
+	else
+		fdf->zoom = (fdf->map_width / WIDTH);
+	while (++i < (fdf->map_height * fdf->map_width))
+	{
+		fdf->map[i].x_iso = (((i / fdf->map_width) - \
+		(i % fdf->map_width)) * cos(30)) * fdf->zoom;
+		fdf->map[i].y_iso = (((i / fdf->map_width) + \
+		(i % fdf->map_width)) * sin(30) - fdf->map[i].z) * fdf->zoom;
+	}
+}
+
 void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 {
 	int		fd;
@@ -177,6 +197,7 @@ void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 		exit(EXIT_FAILURE);
 	}
 	ft_readmap(fd, fdf);
+	ft_initial_views_and_zoom(fdf);
 	close(fd);
 }
 
@@ -200,63 +221,3 @@ int	main(int narg, char **argv)
 	ft_free_and_null((void **) &fdf.map);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-// #include "minilibx/mlx.h"
-// int main(void)
-// {
-//     void    *mlx_ptr;
-//     void    *win_ptr;
-//     mlx_ptr = mlx_init();
-//     win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
-//     mlx_loop(mlx_ptr);
-//     return (0);
-// }
-
-// void draw_line(void *mlx_ptr, void *win_ptr, int x0, int y0, int x1, int y1, int color)
-// {
-//     int	dx = x1 - x0;
-//     int dy = y1 - y0;
-//     int sx, sy;
-
-// 	if (dx < 0)
-// 	{
-// 		dx = -dx;
-// 		sx = -1;
-// 	}
-// 	else
-// 		sx = 1;
-// 	if (dy < 0)
-// 	{
-// 		dy = -dy;
-// 		sy = -1;
-// 	}
-// 	else
-// 		sy = 1;
-//     int err = dx - dy;
-//     int x = x0;
-//     int y = y0;
-
-// 	while (x != x1 || y != y1) {
-// 		mlx_pixel_put(mlx_ptr, win_ptr, x, y, color);
-// 		int e2 = err * 2;
-// 		if (e2 > - dy) {
-// 			err -= dy;
-// 			x += sx;
-// 		}
-//         if (e2 < dx)
-// 		{
-// 			err += dx;
-// 			y += sy;
-//         }
-//     }
-// }

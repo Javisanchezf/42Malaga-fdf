@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/04 19:53:07 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:39:13 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 // #include <unistd.h>
 // #include <stdlib.h>
 // #include <memory.h>
-// #define WIDTH 1920
-// #define HEIGHT 1024
+
 
 // mlx_image_t	*g_img;
 
