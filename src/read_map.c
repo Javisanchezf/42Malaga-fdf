@@ -6,33 +6,11 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/05 12:52:36 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:58:06 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-typedef struct s_fdfmap
-{
-	int		z;
-	int		r;
-	int		g;
-	int		b;
-	int		a;
-	int		x_iso;
-	int		y_iso;
-}					t_fdfmap;
-
-typedef struct s_fdfvariables
-{
-	t_fdfmap	*map;
-	int			map_width;
-	int			map_height;
-	int			zoom;
-}					t_fdfvariables;
-
-
-
 
 int	ft_takenbr(char *file, int start, int size)
 {
