@@ -29,19 +29,25 @@
 
 // void	hook(void *param)
 // {
-// 	mlx_t	*mlx;
+// 	// mlx_t	*mlx;
 
-// 	mlx = param;
+// 	// mlx = param;
 // 	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
 // 		mlx_close_window(param);
 // 	if (mlx_is_key_down(param, MLX_KEY_UP))
-// 		g_img->instances[0].y -= 5;
+// 		g_img->instances->y -= 5;
 // 	if (mlx_is_key_down(param, MLX_KEY_DOWN))
-// 		g_img->instances[0].y += 5;
+// 		g_img->instances->y += 5;
 // 	if (mlx_is_key_down(param, MLX_KEY_LEFT))
-// 		g_img->instances[0].x -= 5;
+// 		g_img->instances->x -= 5;
 // 	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-// 		g_img->instances[0].x += 5;
+// 		g_img->instances->x += 5;
+// 	if (mlx_is_key_down(param, MLX_KEY_O))
+// 		memset(g_img->pixels, 125, g_img->width * g_img->height * sizeof(int));
+// 	// if (mlx_is_key_down(param, MLX_KEY_M))
+// 	// 	 mlx_set_instance_depth(g_img->instances, g_img->instances->z += 1);
+// 	// if (mlx_is_key_down(param, MLX_KEY_L))
+// 	// 	 mlx_set_instance_depth(g_img->instances, g_img->instances->z -= 1);
 // 	if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
 // 		mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[0].y);
 // 	if (mlx_is_key_down(param, MLX_KEY_H))
@@ -57,7 +63,7 @@
 // 	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 // 	if (!mlx)
 // 		error();
-// 	g_img = mlx_new_image(mlx, 128, 128);
+// 	g_img = mlx_new_image(mlx, 300, 300);
 // 	if (!g_img)
 // 		error();
 // 	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
