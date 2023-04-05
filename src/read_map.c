@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/05 12:58:06 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:22:03 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 
 	i = 0;
 	k = 0;
-	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap)); //CONTEMPLAR SI FALLA EL MALLOC
+	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap));
+	fdf->zoom = 0;
 	while (file[i] && k < (fdf->map_height * fdf->map_width))
 	{
 		while (ft_isspace(file[i]))
@@ -106,21 +107,25 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 	ft_free_and_null((void **) &aux);
 }
 
-void	ft_initial_views_and_zoom(t_fdfvariables	*fdf)
+void	ft_views_and_zoom(t_fdfvariables	*fdf)
 {
 	int	i;
 
 	i = -1;
-	if ((fdf->map_height / HEIGHT) > (fdf->map_width / WIDTH))
-		fdf->zoom = (fdf->map_height / HEIGHT);
-	else
-		fdf->zoom = (fdf->map_width / WIDTH);
+	if (fdf->zoom == 0) //Para nada mas iniciar el mapa o cuando el zoom sea 0, puede que en el futuro no sirva y se eliminaria zoom=0 despues del calloc
+	{
+		if ((HEIGHT / fdf->map_height) > (WIDTH / fdf->map_width))
+			fdf->zoom = (HEIGHT / fdf->map_height);
+		else
+			fdf->zoom = (WIDTH / fdf->map_width);
+		ft_printf("ZOOOOOOOOOOOOOOM: %d\n",fdf->zoom);
+	}
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
-		fdf->map[i].x_iso = (((i / fdf->map_width) - \
-		(i % fdf->map_width)) * cos(30)) * fdf->zoom;
-		fdf->map[i].y_iso = (((i / fdf->map_width) + \
-		(i % fdf->map_width)) * sin(30) - fdf->map[i].z) * fdf->zoom;
+		fdf->map[i].x_iso = ((((i / fdf->map_width) * fdf->zoom)- \
+		((i % fdf->map_width)) * fdf->zoom) * cos(0.523599));
+		fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + \
+		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom);
 	}
 }
 
@@ -135,7 +140,7 @@ void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 		exit(EXIT_FAILURE);
 	}
 	ft_readmap(fd, fdf);
-	ft_initial_views_and_zoom(fdf);
+	ft_views_and_zoom(fdf);
 	close(fd);
 }
 
@@ -151,7 +156,15 @@ int	main(int narg, char **argv)
 	i = 0;
 	while(i < (fdf.map_height * fdf.map_width))
 	{
-		ft_printf("(%d,", fdf.map[i].z);
+		ft_printf("%d\t", fdf.map[i].z);
+		if (i != 0 && (i + 1) % fdf.map_width == 0)
+			ft_printf("\n");
+		i++;
+	}
+	i = 0;
+	while(i < (fdf.map_height * fdf.map_width))
+	{
+		ft_printf("(%d, %d)", fdf.map[i].x_iso, fdf.map[i].y_iso);
 		if (i != 0 && (i + 1) % fdf.map_width == 0)
 			ft_printf("\n");
 		i++;
