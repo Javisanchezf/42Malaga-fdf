@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/04 21:44:19 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/05 12:52:36 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,48 +31,8 @@ typedef struct s_fdfvariables
 	int			zoom;
 }					t_fdfvariables;
 
-int	ft_isspace(char c)
-{
-	return (c == ' ' || ((unsigned char)c >= 9 && (unsigned char)c <= 13));
-}
 
-int	ft_countwords(char *line)
-{
-	int	i;
 
-	i = 0;
-	while (*line)
-	{
-		if (ft_isspace(*line) == 0 && (ft_isspace(*(line + 1)) || !line[1]))
-			i++;
-		line++;
-	}
-	return (i);
-}
-
-int	ft_hex_to_dec(char *hex)
-{
-	int		len;
-	int		dec;
-	int		base;
-	char	c;
-
-	len = ft_strlen(hex);
-	dec = 0;
-	base = 1;
-	while (len-- > 0)
-	{
-		c = hex[len];
-		if (c >= '0' && c <= '9')
-			dec += (c - '0') * base;
-		else if (c >= 'a' && c <= 'f')
-			dec += (c - 'a' + 10) * base;
-		else if (c >= 'A' && c <= 'F')
-			dec += (c - 'A' + 10) * base;
-		base *= 16;
-	}
-	return (dec);
-}
 
 int	ft_takenbr(char *file, int start, int size)
 {
@@ -149,12 +109,12 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 
 	fdf->map_height = 0;
 	line = get_next_line(fd);
-	fdf->map_width = ft_countwords(line);
+	fdf->map_width = ft_count_words(line);
 	aux = ft_calloc(1, 1);
 	while (line)
 	{
 		fdf->map_height++;
-		if (fdf->map_width != ft_countwords(line))
+		if (fdf->map_width != ft_count_words(line))
 		{
 			ft_free_and_null((void **) &aux);
 			ft_free_and_null((void **) &line);
