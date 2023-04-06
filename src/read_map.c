@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/06 13:17:37 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:27:30 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,11 @@ void	ft_normalize(t_fdfvariables	*fdf)
 	i = -1;
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
-		fdf->map[i].x_iso += abs(lower_x);
-		fdf->map[i].y_iso += abs(lower_y);
+		fdf->map[i].x_iso -= lower_x;
+		fdf->map[i].y_iso -= lower_y;
 	}
-	fdf->window_width += abs(lower_x);
-	fdf->window_height += abs(lower_y);
+	fdf->window_width -= lower_x;
+	fdf->window_height -= lower_y;
 	ft_printf("WW: %d, WH %d\n", fdf->window_width, fdf->window_height);
 }
 
