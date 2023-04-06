@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/05 12:57:38 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:07:24 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_fdfvariables
 	t_fdfmap	*map;
 	int			map_width;
 	int			map_height;
+	int			window_width;
+	int			window_height;
 	int			zoom;
 }					t_fdfvariables;
 

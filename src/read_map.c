@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/05 14:22:03 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:28:05 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 
 	i = 0;
 	k = 0;
-	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap));
+	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap)); //Le falta proteccion y salirse del royo
 	fdf->zoom = 0;
 	while (file[i] && k < (fdf->map_height * fdf->map_width))
 	{
@@ -107,6 +107,39 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 	ft_free_and_null((void **) &aux);
 }
 
+void	ft_normalize(t_fdfvariables	*fdf)
+{
+	int	i;
+	int	lower_x;
+	int	lower_y;
+
+	i = -1;
+	fdf->window_height = 0;
+	fdf->window_width = 0;
+	lower_x = 0;
+	lower_y = 0;
+	while (++i < (fdf->map_height * fdf->map_width))
+	{
+		if (lower_x > fdf->map[i].x_iso)
+			lower_x = fdf->map[i].x_iso;
+		if (lower_y > fdf->map[i].y_iso)
+			lower_y = fdf->map[i].y_iso;
+		if (fdf->window_width < fdf->map[i].x_iso)
+			fdf->window_width = fdf->map[i].x_iso;
+		if (fdf->window_height < fdf->map[i].y_iso)
+			fdf->window_height = fdf->map[i].y_iso;
+	}
+	i = -1;
+	while (++i < (fdf->map_height * fdf->map_width))
+	{
+		fdf->map[i].x_iso += abs(lower_x);
+		fdf->map[i].y_iso += abs(lower_y);
+	}
+	fdf->window_width += abs(lower_x);
+	fdf->window_height += abs(lower_y);
+	ft_printf("WW: %d, WH %d\n", fdf->window_width, fdf->window_height);
+}
+
 void	ft_views_and_zoom(t_fdfvariables	*fdf)
 {
 	int	i;
@@ -115,10 +148,9 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 	if (fdf->zoom == 0) //Para nada mas iniciar el mapa o cuando el zoom sea 0, puede que en el futuro no sirva y se eliminaria zoom=0 despues del calloc
 	{
 		if ((HEIGHT / fdf->map_height) > (WIDTH / fdf->map_width))
-			fdf->zoom = (HEIGHT / fdf->map_height);
+			fdf->zoom = (HEIGHT / fdf->map_height) / 2;
 		else
-			fdf->zoom = (WIDTH / fdf->map_width);
-		ft_printf("ZOOOOOOOOOOOOOOM: %d\n",fdf->zoom);
+			fdf->zoom = (WIDTH / fdf->map_width) / 2;
 	}
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
@@ -127,6 +159,7 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 		fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + \
 		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom);
 	}
+	ft_normalize(fdf);
 }
 
 void	ft_map_construct(char *file, t_fdfvariables	*fdf)
@@ -171,4 +204,45 @@ int	main(int narg, char **argv)
 	}
 	ft_free_and_null((void **) &fdf.map);
 	return (0);
+}
+
+
+void bresenham(int x1, int y1, int x2, int y2)
+{
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx, sy;
+
+    if (x1 < x2) {
+        sx = 1;
+    } else {
+        sx = -1;
+    }
+
+    if (y1 < y2) {
+        sy = 1;
+    } else {
+        sy = -1;
+    }
+
+    int err = dx - dy;
+    int e2;
+    int x = x1;
+    int y = y1;
+
+    while (1) {
+        printf("(%d, %d)\n", x, y);
+        if (x == x2 && y == y2) {
+            break;
+        }
+        e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y += sy;
+        }
+    }
 }
