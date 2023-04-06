@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/06 12:28:05 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:17:37 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,42 +207,41 @@ int	main(int narg, char **argv)
 }
 
 
-void bresenham(int x1, int y1, int x2, int y2)
-{
-    int dx = abs(x2 - x1);
-    int dy = abs(y2 - y1);
-    int sx, sy;
+// void bresenham(int x1, int y1, int x2, int y2)
+// {
+// 	int dx = abs(x2 - x1);
+// 	int dy = abs(y2 - y1);
+// 	int sx, sy;
 
-    if (x1 < x2) {
-        sx = 1;
-    } else {
-        sx = -1;
-    }
+// 	if (x1 < x2)
+// 		sx = 1;
+// 	else
+// 		sx = -1;
+// 	if (y1 < y2)
+// 		sy = 1;
+// 	else
+// 		sy = -1;
 
-    if (y1 < y2) {
-        sy = 1;
-    } else {
-        sy = -1;
-    }
+// 	int err = dx - dy;
+// 	int e2;
+// 	int x = x1;
+// 	int y = y1;
 
-    int err = dx - dy;
-    int e2;
-    int x = x1;
-    int y = y1;
-
-    while (1) {
-        printf("(%d, %d)\n", x, y);
-        if (x == x2 && y == y2) {
-            break;
-        }
-        e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x += sx;
-        }
-        if (e2 < dx) {
-            err += dx;
-            y += sy;
-        }
-    }
-}
+// 	while (1)
+// 	{
+// 		printf("(%d, %d)\n", x, y);
+// 		if (x == x2 && y == y2)
+//             break;
+// 		e2 = 2 * err;
+// 		if (e2 > -dy)
+// 		{
+// 			err -= dy;
+// 			x += sx;
+// 		}
+// 		if (e2 < dx)
+// 		{
+// 			err += dx;
+// 			y += sy;
+// 		}
+// 	}
+// }
