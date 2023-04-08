@@ -6,11 +6,16 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/06 13:27:30 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:06:02 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+mlx_image_t	*g_img;
+
+#include <stdlib.h>
+#include <memory.h>
+#include <stdio.h>
 
 int	ft_takenbr(char *file, int start, int size)
 {
@@ -42,17 +47,22 @@ void	takecoloraux(char *file, int *i, int *color)
 
 void	ft_takecolor(char *file, t_fdfvariables *fdf, int *i, int position)
 {
-	(*i)++;
-	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
-		takecoloraux(file, i, &fdf->map[position].r);
-	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
-		takecoloraux(file, i, &fdf->map[position].g);
-	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
-		takecoloraux(file, i, &fdf->map[position].b);
-	if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
-		takecoloraux(file, i, &fdf->map[position].a);
-	else
-		fdf->map[position].a = 255;
+	fdf->map[position].r = 255;
+	fdf->map[position].g = 255;
+	fdf->map[position].b = 255;
+	fdf->map[position].a = 255;
+	if (file[*i] == ',')
+	{
+		(*i)++;
+		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+			takecoloraux(file, i, &fdf->map[position].r);
+		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+			takecoloraux(file, i, &fdf->map[position].g);
+		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+			takecoloraux(file, i, &fdf->map[position].b);
+		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+			takecoloraux(file, i, &fdf->map[position].a);
+	}
 }
 
 void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
@@ -73,8 +83,7 @@ void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 		while (ft_isdigit(file[i]) || file[i] == '-')
 			i++;
 		fdf->map[k].z = ft_takenbr(file, j, i - j);
-		if (file[i] == ',')
-			ft_takecolor(file, fdf, &i, k);
+		ft_takecolor(file, fdf, &i, k);
 		if (k % fdf->map_width == 0)
 			ft_printf("Construido %d/%d\n", (k / fdf->map_width) + 1, fdf->map_height);
 		k++;
@@ -154,10 +163,10 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 	}
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
-		fdf->map[i].x_iso = ((((i / fdf->map_width) * fdf->zoom)- \
-		((i % fdf->map_width)) * fdf->zoom) * cos(0.523599));
+		fdf->map[i].x_iso = -1 * (((((i / fdf->map_width) * fdf->zoom)- \
+		((i % fdf->map_width)) * fdf->zoom) * cos(0.523599)));
 		fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + \
-		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom);
+		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom / 7);
 	}
 	ft_normalize(fdf);
 }
@@ -177,71 +186,155 @@ void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 	close(fd);
 }
 
-int	main(int narg, char **argv)
+static void	error(void)
+{
+	puts(mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
+}
+
+void	hook(void *param)
+{
+	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
+		mlx_close_window(param);
+	if (mlx_is_key_down(param, MLX_KEY_UP))
+		g_img->instances->y += 5;
+	if (mlx_is_key_down(param, MLX_KEY_DOWN))
+		g_img->instances->y -= 5;
+	if (mlx_is_key_down(param, MLX_KEY_LEFT))
+		g_img->instances->x += 5;
+	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
+		g_img->instances->x -= 5;
+	if (mlx_is_key_down(param, MLX_KEY_O))
+		memset(g_img->pixels, 125, g_img->width * g_img->height * sizeof(int));
+	// if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
+	// 	mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[g_img->height / 2].y);
+	if (mlx_is_key_down(param, MLX_KEY_H))
+		g_img->enabled = 0;
+	if (mlx_is_key_down(param, MLX_KEY_S))
+		g_img->enabled = 1;
+}
+
+void	ft_putrgba(int	i, t_fdfmap *map)
+{
+	g_img->pixels[i] =  map->r;
+	g_img->pixels[i + 1] =  map->g;
+	g_img->pixels[i + 2] =  map->b;
+	g_img->pixels[i + 3] =  map->a;
+}
+
+void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+{
+	int dx = abs(x2 - x1);
+	int dy = abs(y2 - y1);
+	int sx, sy;
+
+	if (x1 < x2)
+		sx = 1;
+	else
+		sx = -1;
+	if (y1 < y2)
+		sy = 1;
+	else
+		sy = -1;
+
+	int err = dx - dy;
+	int e2;
+	int x = x1;
+	int y = y1;
+
+	while (1)
+	{
+		// ft_printf("(%d, %d)\n", x, y);
+		ft_putrgba(x * 4 + ((g_img->width * (y + 1)) * 4), fdf->map);//PORAQUI
+		if (x == x2 && y == y2)
+            break;
+		e2 = 2 * err;
+		if (e2 > -dy)
+		{
+			err -= dy;
+			x += sx;
+		}
+		if (e2 < dx)
+		{
+			err += dx;
+			y += sy;
+		}
+	}
+}
+
+void	ft_picasso(t_fdfvariables *fdf)
+{
+	int	i;
+
+	i = -1;
+	while (++i < ((fdf->map_height * fdf->map_width) - 1))
+	{
+		if ((i + 1) % fdf->map_width != 0)
+			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + 1].x_iso, fdf->map[i + 1].y_iso, fdf);
+		if (i / fdf->map_width != fdf->map_height - 1)
+			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width].x_iso, fdf->map[i + fdf->map_width].y_iso, fdf);
+		if (((i + 1) % fdf->map_width != 0) && (i / fdf->map_width != fdf->map_height - 1))
+			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width + 1].x_iso, fdf->map[i + fdf->map_width + 1].y_iso, fdf);
+		if ((i / fdf->map_width != fdf->map_height - 1))
+			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width - 1].x_iso, fdf->map[i + fdf->map_width - 1].y_iso, fdf);
+	}
+}
+
+int32_t	main(int narg, char **argv)
 {
 	t_fdfvariables	fdf;
-	int				i;
+	mlx_t	*mlx;
 
 	if (narg != 2 || !argv[1])
 		return (1);
 	ft_map_construct(argv[1], &fdf);
-	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", fdf.map_width, fdf.map_height);
-	i = 0;
-	while(i < (fdf.map_height * fdf.map_width))
-	{
-		ft_printf("%d\t", fdf.map[i].z);
-		if (i != 0 && (i + 1) % fdf.map_width == 0)
-			ft_printf("\n");
-		i++;
-	}
-	i = 0;
-	while(i < (fdf.map_height * fdf.map_width))
-	{
-		ft_printf("(%d, %d)", fdf.map[i].x_iso, fdf.map[i].y_iso);
-		if (i != 0 && (i + 1) % fdf.map_width == 0)
-			ft_printf("\n");
-		i++;
-	}
+	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	if (!mlx)
+		error();
+	g_img = mlx_new_image(mlx, fdf.window_width, fdf.window_height);
+	if (!g_img)
+		error();
+	// memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
+	ft_picasso(&fdf);
+	if (mlx_image_to_window(mlx, g_img, ((WIDTH - g_img->width) / 2), ((HEIGHT - g_img->height) / 2)) < 0)
+		error();
+	mlx_loop_hook(mlx, &hook, mlx);
+	mlx_loop(mlx);
 	ft_free_and_null((void **) &fdf.map);
-	return (0);
+	mlx_delete_image(mlx, g_img);
+	mlx_terminate(mlx);
+	return (EXIT_SUCCESS);
 }
 
 
-// void bresenham(int x1, int y1, int x2, int y2)
+
+// int	main(int narg, char **argv)
 // {
-// 	int dx = abs(x2 - x1);
-// 	int dy = abs(y2 - y1);
-// 	int sx, sy;
+// 	t_fdfvariables	fdf;
+// 	int				i;
 
-// 	if (x1 < x2)
-// 		sx = 1;
-// 	else
-// 		sx = -1;
-// 	if (y1 < y2)
-// 		sy = 1;
-// 	else
-// 		sy = -1;
-
-// 	int err = dx - dy;
-// 	int e2;
-// 	int x = x1;
-// 	int y = y1;
-
-// 	while (1)
+// 	if (narg != 2 || !argv[1])
+// 		return (1);
+// 	ft_map_construct(argv[1], &fdf);
+// 	ft_printf("Descripción del mapa:\nAncho: %d \nAlto: %d\n", fdf.map_width, fdf.map_height);
+// 	i = 0;
+// 	while(i < (fdf.map_height * fdf.map_width))
 // 	{
-// 		printf("(%d, %d)\n", x, y);
-// 		if (x == x2 && y == y2)
-//             break;
-// 		e2 = 2 * err;
-// 		if (e2 > -dy)
-// 		{
-// 			err -= dy;
-// 			x += sx;
-// 		}
-// 		if (e2 < dx)
-// 		{
-// 			err += dx;
-// 			y += sy;
-// 		}
+// 		ft_printf("%d\t", fdf.map[i].z);
+// 		if (i != 0 && (i + 1) % fdf.map_width == 0)
+// 			ft_printf("\n");
+// 		i++;
 // 	}
+// 	i = 0;
+// 	while(i < (fdf.map_height * fdf.map_width))
+// 	{
+// 		ft_printf("(%d, %d)", fdf.map[i].x_iso, fdf.map[i].y_iso);
+// 		if (i != 0 && (i + 1) % fdf.map_width == 0)
+// 			ft_printf("\n");
+// 		i++;
+// 	}
+// 	bresenham(0, 1, 2, 3);
+// 	ft_free_and_null((void **) &fdf.map);
+// 	return (0);
 // }
+

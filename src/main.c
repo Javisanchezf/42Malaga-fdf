@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/04 21:39:13 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:27:45 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "fdf.h"
+#include "fdf.h"
 
 
-// #include <stdio.h>
-// #include <unistd.h>
-// #include <stdlib.h>
-// #include <memory.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <memory.h>
 
 
 // mlx_image_t	*g_img;
@@ -44,10 +44,6 @@
 // 		g_img->instances->x += 5;
 // 	if (mlx_is_key_down(param, MLX_KEY_O))
 // 		memset(g_img->pixels, 125, g_img->width * g_img->height * sizeof(int));
-// 	// if (mlx_is_key_down(param, MLX_KEY_M))
-// 	// 	 mlx_set_instance_depth(g_img->instances, g_img->instances->z += 1);
-// 	// if (mlx_is_key_down(param, MLX_KEY_L))
-// 	// 	 mlx_set_instance_depth(g_img->instances, g_img->instances->z -= 1);
 // 	if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
 // 		mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[0].y);
 // 	if (mlx_is_key_down(param, MLX_KEY_H))
