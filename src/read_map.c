@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/08 14:06:02 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:48:05 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,19 @@ void	takecoloraux(char *file, int *i, int *color)
 void	ft_takecolor(char *file, t_fdfvariables *fdf, int *i, int position)
 {
 	fdf->map[position].r = 255;
-	fdf->map[position].g = 255;
-	fdf->map[position].b = 255;
+	fdf->map[position].g = 140;
+	fdf->map[position].b = 0;
 	fdf->map[position].a = 255;
-	if (file[*i] == ',')
+	if (file[*i] == ',' && file[*i + 1] == '0' && file[*i + 2] == 'x')
 	{
-		(*i)++;
-		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		(*i) += 3;
+		if (ft_isalnum(file[*i]) && ft_isalnum(file[*i + 1]))
 			takecoloraux(file, i, &fdf->map[position].r);
-		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		if (ft_isalnum(file[*i]) && ft_isalnum(file[*i + 1]))
 			takecoloraux(file, i, &fdf->map[position].g);
-		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		if (ft_isalnum(file[*i]) && ft_isalnum(file[*i + 1]))
 			takecoloraux(file, i, &fdf->map[position].b);
-		if (ft_isalnum(file[*i + 1]) && ft_isalnum(file[*i + 2]))
+		if (ft_isalnum(file[*i]) && ft_isalnum(file[*i + 1]))
 			takecoloraux(file, i, &fdf->map[position].a);
 	}
 }
@@ -166,7 +166,7 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 		fdf->map[i].x_iso = -1 * (((((i / fdf->map_width) * fdf->zoom)- \
 		((i % fdf->map_width)) * fdf->zoom) * cos(0.523599)));
 		fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + \
-		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom / 7);
+		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom / 4);
 	}
 	ft_normalize(fdf);
 }
@@ -190,28 +190,6 @@ static void	error(void)
 {
 	puts(mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
-}
-
-void	hook(void *param)
-{
-	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
-		mlx_close_window(param);
-	if (mlx_is_key_down(param, MLX_KEY_UP))
-		g_img->instances->y += 5;
-	if (mlx_is_key_down(param, MLX_KEY_DOWN))
-		g_img->instances->y -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_LEFT))
-		g_img->instances->x += 5;
-	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-		g_img->instances->x -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_O))
-		memset(g_img->pixels, 125, g_img->width * g_img->height * sizeof(int));
-	// if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
-	// 	mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[g_img->height / 2].y);
-	if (mlx_is_key_down(param, MLX_KEY_H))
-		g_img->enabled = 0;
-	if (mlx_is_key_down(param, MLX_KEY_S))
-		g_img->enabled = 1;
 }
 
 void	ft_putrgba(int	i, t_fdfmap *map)
@@ -245,7 +223,7 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 	while (1)
 	{
 		// ft_printf("(%d, %d)\n", x, y);
-		ft_putrgba(x * 4 + ((g_img->width * (y + 1)) * 4), fdf->map);//PORAQUI
+		ft_putrgba(x * 4 + (g_img->width * y * 4), fdf->map);//PORAQUI
 		if (x == x2 && y == y2)
             break;
 		e2 = 2 * err;
@@ -267,17 +245,59 @@ void	ft_picasso(t_fdfvariables *fdf)
 	int	i;
 
 	i = -1;
-	while (++i < ((fdf->map_height * fdf->map_width) - 1))
+	while (++i < ((fdf->map_height * fdf->map_width)))
 	{
 		if ((i + 1) % fdf->map_width != 0)
 			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + 1].x_iso, fdf->map[i + 1].y_iso, fdf);
 		if (i / fdf->map_width != fdf->map_height - 1)
 			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width].x_iso, fdf->map[i + fdf->map_width].y_iso, fdf);
-		if (((i + 1) % fdf->map_width != 0) && (i / fdf->map_width != fdf->map_height - 1))
-			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width + 1].x_iso, fdf->map[i + fdf->map_width + 1].y_iso, fdf);
-		if ((i / fdf->map_width != fdf->map_height - 1))
-			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width - 1].x_iso, fdf->map[i + fdf->map_width - 1].y_iso, fdf);
+		// if (((i + 1) % fdf->map_width != 0) && (i / fdf->map_width != fdf->map_height - 1))
+		// 	bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width + 1].x_iso, fdf->map[i + fdf->map_width + 1].y_iso, fdf);
+		// if ((i / fdf->map_width != fdf->map_height - 1))
+		// 	bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width - 1].x_iso, fdf->map[i + fdf->map_width - 1].y_iso, fdf);
 	}
+}
+
+int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
+{
+	if (n1 > n2)
+		return((n1 - n2) / 2);
+	return((n2 - n1) / 2);
+}
+
+void	hook(void *param)
+{
+	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
+		mlx_close_window(param);
+	if (mlx_is_key_down(param, MLX_KEY_UP))
+		g_img->instances->y += 5;
+	if (mlx_is_key_down(param, MLX_KEY_DOWN))
+		g_img->instances->y -= 5;
+	if (mlx_is_key_down(param, MLX_KEY_LEFT))
+		g_img->instances->x += 5;
+	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
+		g_img->instances->x -= 5;
+	// if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
+	// 	mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[g_img->height / 2].y);
+	if (mlx_is_key_down(param, MLX_KEY_H))
+		g_img->enabled = 0;
+	if (mlx_is_key_down(param, MLX_KEY_S))
+		g_img->enabled = 1;
+}
+
+void	ft_menu(mlx_t	*mlx)
+{
+	mlx_image_t	*menu;
+
+	menu = mlx_new_image(mlx, 250, HEIGHT);
+	if (!menu)
+		error();
+	memset(menu->pixels, 120, menu->width * menu->height * sizeof(int));
+	if (mlx_image_to_window(mlx, menu, 0, 0 < 0))
+		error();
+	mlx_put_string(mlx, "---CONTROLS---", 50, 10);
+	mlx_put_string(mlx, "Arrows: Basic movement", 5, 30);
+	mlx_put_string(mlx, "ESC: Close the window", 5, 50);
 }
 
 int32_t	main(int narg, char **argv)
@@ -288,16 +308,17 @@ int32_t	main(int narg, char **argv)
 	if (narg != 2 || !argv[1])
 		return (1);
 	ft_map_construct(argv[1], &fdf);
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!mlx)
 		error();
 	g_img = mlx_new_image(mlx, fdf.window_width, fdf.window_height);
 	if (!g_img)
 		error();
-	// memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
+	// memset(g_img->pixels, 100, g_img->width * g_img->height * sizeof(int));
 	ft_picasso(&fdf);
-	if (mlx_image_to_window(mlx, g_img, ((WIDTH - g_img->width) / 2), ((HEIGHT - g_img->height) / 2)) < 0)
+	if (mlx_image_to_window(mlx, g_img, ft_w_center(WIDTH, g_img->width), ft_w_center(HEIGHT, g_img->height) < 0))
 		error();
+	ft_menu(mlx);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);
 	ft_free_and_null((void **) &fdf.map);
