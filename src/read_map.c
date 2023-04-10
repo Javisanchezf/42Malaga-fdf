@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/09 13:48:05 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/10 12:26:13 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_takenbr(char *file, int start, int size)
 	return (intnbr);
 }
 
-void	takecoloraux(char *file, int *i, int *color)
+void	takecoloraux(char *file, int *i, short int *color)
 {
 	char		nbr[3];
 
