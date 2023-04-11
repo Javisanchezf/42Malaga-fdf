@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/11 22:34:04 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/11 22:58:21 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../libftplus/libftplus.h"
 # include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
-
-mlx_image_t	*g_img;
 
 typedef struct s_fdfmap
 {
