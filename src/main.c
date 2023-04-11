@@ -3,138 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/08 11:27:45 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/11 22:54:32 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	error(char *prompt)
+{
+	ft_printf("%s", prompt);
+	exit(EXIT_FAILURE);
+}
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <memory.h>
+int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
+{
+	if (n1 > n2)
+		return ((n1 - n2) / 2);
+	return ((n2 - n1) / 2);
+}
 
+void	hook(void *param)
+{
+	t_fdfvariables	*fdf;
 
-// mlx_image_t	*g_img;
+	fdf = param;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(fdf->mlx);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
+		fdf->img->instances->y -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
+		fdf->img->instances->y += 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
+		fdf->img->instances->x -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
+		fdf->img->instances->x += 5;
+	// if (fdf->mlx_is_mouse_down(fdf->mlx, fdf->mlx_MOUSE_BUTTON_LEFT))
+	// 	fdf->mlx_get_mouse_pos(fdf->mlx, &fdf->img->instances[0].x, &fdf->img->instances[fdf->img->height / 2].y);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
+		fdf->img->enabled = 0;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
+		fdf->img->enabled = 1;
+}
 
-// static void	error(void)
-// {
-// 	puts(mlx_strerror(mlx_errno));
-// 	exit(EXIT_FAILURE);
-// }
+int32_t	main(int narg, char **argv)
+{
+	t_fdfvariables	fdf;
 
-// void	hook(void *param)
-// {
-// 	// mlx_t	*mlx;
-
-// 	// mlx = param;
-// 	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
-// 		mlx_close_window(param);
-// 	if (mlx_is_key_down(param, MLX_KEY_UP))
-// 		g_img->instances->y -= 5;
-// 	if (mlx_is_key_down(param, MLX_KEY_DOWN))
-// 		g_img->instances->y += 5;
-// 	if (mlx_is_key_down(param, MLX_KEY_LEFT))
-// 		g_img->instances->x -= 5;
-// 	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-// 		g_img->instances->x += 5;
-// 	if (mlx_is_key_down(param, MLX_KEY_O))
-// 		memset(g_img->pixels, 125, g_img->width * g_img->height * sizeof(int));
-// 	if (mlx_is_mouse_down(param, MLX_MOUSE_BUTTON_LEFT))
-// 		mlx_get_mouse_pos(param, &g_img->instances[0].x, &g_img->instances[0].y);
-// 	if (mlx_is_key_down(param, MLX_KEY_H))
-// 		g_img->enabled = 0;
-// 	if (mlx_is_key_down(param, MLX_KEY_S))
-// 		g_img->enabled = 1;
-// }
-
-// int32_t	main(void)
-// {
-// 	mlx_t	*mlx;
-
-// 	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-// 	if (!mlx)
-// 		error();
-// 	g_img = mlx_new_image(mlx, 300, 300);
-// 	if (!g_img)
-// 		error();
-// 	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
-// 	if (mlx_image_to_window(mlx, g_img, 0, 0) < 0)
-// 		error();
-// 	mlx_loop_hook(mlx, &hook, mlx);
-// 	mlx_loop(mlx);
-// 	mlx_delete_image(mlx, g_img);
-// 	mlx_terminate(mlx);
-// 	return (EXIT_SUCCESS);
-// }
-
-
-//-----------------------------------------------------------------------------
-// int32_t	main(void)
-// {
-// 	uint8_t *disp;
-// 	uint8_t *disp1;
-	
-// //   
-
-	
-// 	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
-// 	if (!mlx)
-//         error();
-// 	mlx_image_t* img = mlx_new_image(mlx, 1920, 1024);
-// 	if (!img)
-// 		error();
-// 	// memset(img->pixels, 127, img->width * img->height * sizeof(int32_t));
-// 	disp = calloc(img->width * img->height , sizeof(int32_t));
-// 	disp1 = calloc(img->width * img->height , sizeof(int32_t));
-// 	 unsigned long i;
-//    for(i=0; i<(img->width * img->height*sizeof(int32_t)); i++) 
-//    {
-// 		if ((i / img->height)%2 == 1)
-//         	disp[i] = 255;
-// 		// if ((i / img->height)%2 == 0)
-//         // 	disp[i] = 120;
-//    }
-// 	img->pixels = disp;
-// 	// if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-//     //     error();
-// // 	   for(i=0; ((i * 10) + i)<(img->width * img->height*sizeof(int32_t)); i++) 
-// //    {
-// // 		// if ((i / img->height)%2 == 1)
-// //         // 	disp[i] = 255;
-// //         	disp1[((i * 10) + i)] = 255;
-// //    }
-// 	int	j;
-// 	j = 0;
-// 	int color = 255;
-// 	for (i=0; i<(img->width * img->height * sizeof(int32_t)); i++)
-// 	{
-// 		j++;
-// 		if (j == 16)
-// 		{
-// 			disp1[i] = color;
-// 			disp1[i - 1] = color;
-// 			disp1[i - 2] = color;
-// 			disp1[i - 3] = color;
-// 			disp1[i - 4] = 255;
-// 			disp1[i - 5] = 2;
-// 			disp1[i - 6] = 2;
-// 			disp1[i - 7] = 8 * 16 + 1;
-// 			j = 0;
-// 		}
-// 		if(i > 1024 * 4 * 100)
-// 			color = 42;
-// 	}
-// 	img->pixels = disp1;
-// 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-//         error();
-// 	mlx_loop(mlx);
-// 	mlx_delete_image(mlx, img);
-// 	mlx_terminate(mlx);
-// 	// ft_free_and_null((void **) &disp);
-// 	return (EXIT_SUCCESS);
-// }
+	if (narg != 2 || !argv[1])
+		return (1);
+	ft_map_construct(argv[1], &fdf);
+	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+	if (!fdf.mlx)
+		error("Fallo al iniciar fdf->mlx.");
+	fdf.img = mlx_new_image(fdf.mlx, fdf.window_width, fdf.window_height);
+	if (!fdf.img)
+		error("Fallo al crear la imagen.");
+	// ft_memset(fdf.img->pixels, 100, fdf.img->width * fdf.img->height * sizeof(int));
+	ft_picasso(&fdf);
+	if (mlx_image_to_window(fdf.mlx, fdf.img, ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height) < 0))
+		error("Fallo al poner la imagen en la window.");
+	ft_menu(fdf.mlx);
+	mlx_loop_hook(fdf.mlx, &hook, (void *)&fdf);
+	mlx_loop(fdf.mlx);
+	ft_free_and_null((void **) &fdf.map);
+	mlx_delete_image(fdf.mlx, fdf.img);
+	mlx_terminate(fdf.mlx);
+	return (EXIT_SUCCESS);
+}
