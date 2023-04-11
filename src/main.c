@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/11 22:54:32 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/11 23:01:14 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void	hook(void *param)
 		fdf->img->instances->x -= 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
 		fdf->img->instances->x += 5;
-	// if (fdf->mlx_is_mouse_down(fdf->mlx, fdf->mlx_MOUSE_BUTTON_LEFT))
-	// 	fdf->mlx_get_mouse_pos(fdf->mlx, &fdf->img->instances[0].x, &fdf->img->instances[fdf->img->height / 2].y);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
 		fdf->img->enabled = 0;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
