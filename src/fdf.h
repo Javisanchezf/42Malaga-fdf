@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/11 22:58:21 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:20:52 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_fdfvariables
 {
 	t_fdfmap	*map;
 	mlx_image_t	*img;
+	mlx_image_t	*menu;
 	mlx_t		*mlx;
 	int			map_width;
 	int			map_height;
@@ -42,8 +43,9 @@ typedef struct s_fdfvariables
 }					t_fdfvariables;
 
 void		error(char *prompt);
-void		ft_menu(mlx_t	*mlx);
+void		ft_menu(t_fdfvariables	*fdf);
 void		ft_picasso(t_fdfvariables *fdf);
 void		ft_map_construct(char *file, t_fdfvariables	*fdf);
+void		ft_views_and_zoom(t_fdfvariables	*fdf);
 
 #endif

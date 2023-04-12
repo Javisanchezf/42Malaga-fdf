@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/11 23:01:14 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:52:19 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
 
 void	error(char *prompt)
 {
@@ -18,12 +19,6 @@ void	error(char *prompt)
 	exit(EXIT_FAILURE);
 }
 
-int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
-{
-	if (n1 > n2)
-		return ((n1 - n2) / 2);
-	return ((n2 - n1) / 2);
-}
 
 void	hook(void *param)
 {
@@ -41,10 +36,33 @@ void	hook(void *param)
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
 		fdf->img->instances->x += 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
-		fdf->img->enabled = 0;
+		fdf->menu->enabled = 0;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
-		fdf->img->enabled = 1;
+		fdf->menu->enabled = 1;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
+	{
+		fdf->zoom -= 1;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_L))
+	{
+		fdf->zoom += 1;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
 }
+
+
+int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
+{
+	if (n1 > n2)
+		return ((n1 - n2) / 2);
+	return ((n2 - n1) / 2);
+}
+
 
 int32_t	main(int narg, char **argv)
 {
@@ -61,9 +79,9 @@ int32_t	main(int narg, char **argv)
 		error("Fallo al crear la imagen.");
 	// ft_memset(fdf.img->pixels, 100, fdf.img->width * fdf.img->height * sizeof(int));
 	ft_picasso(&fdf);
-	if (mlx_image_to_window(fdf.mlx, fdf.img, ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height) < 0))
+	if (mlx_image_to_window(fdf.mlx, fdf.img, ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height)))
 		error("Fallo al poner la imagen en la window.");
-	ft_menu(fdf.mlx);
+	ft_menu(&fdf);
 	mlx_loop_hook(fdf.mlx, &hook, (void *)&fdf);
 	mlx_loop(fdf.mlx);
 	ft_free_and_null((void **) &fdf.map);
