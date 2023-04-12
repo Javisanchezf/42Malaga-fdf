@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 12:52:19 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/12 20:56:41 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
 void	error(char *prompt)
 {
-	ft_printf("%s", prompt);
+	ft_printf("%s","❌ \033[31;1m");
+	ft_putstr_fd(prompt, 2);
+	ft_printf("%s","\n\033[0m");
 	exit(EXIT_FAILURE);
 }
-
 
 void	hook(void *param)
 {
@@ -35,10 +35,10 @@ void	hook(void *param)
 		fdf->img->instances->x -= 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
 		fdf->img->instances->x += 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
-		fdf->menu->enabled = 0;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
-		fdf->menu->enabled = 1;
+	// if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
+	// 	fdf->menu->enabled = 0;
+	// if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
+	// 	fdf->menu->enabled = 1;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
 	{
 		fdf->zoom -= 1;
@@ -53,8 +53,50 @@ void	hook(void *param)
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
+	{
+		if (fdf->z_zoom != 0.01)
+			fdf->z_zoom -= 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_K))
+	{
+		fdf->z_zoom += 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
+	{
+		fdf->x_angle += 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z))
+	{
+		fdf->x_angle -= 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
+	{
+		fdf->y_angle += 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_X))
+	{
+		fdf->y_angle -= 0.01;
+		ft_views_and_zoom(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
 }
-
 
 int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
 {
@@ -62,7 +104,6 @@ int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
 		return ((n1 - n2) / 2);
 	return ((n2 - n1) / 2);
 }
-
 
 int32_t	main(int narg, char **argv)
 {
@@ -77,7 +118,6 @@ int32_t	main(int narg, char **argv)
 	fdf.img = mlx_new_image(fdf.mlx, fdf.window_width, fdf.window_height);
 	if (!fdf.img)
 		error("Fallo al crear la imagen.");
-	// ft_memset(fdf.img->pixels, 100, fdf.img->width * fdf.img->height * sizeof(int));
 	ft_picasso(&fdf);
 	if (mlx_image_to_window(fdf.mlx, fdf.img, ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height)))
 		error("Fallo al poner la imagen en la window.");

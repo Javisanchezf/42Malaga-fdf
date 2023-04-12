@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+         #
+#    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/04/12 11:57:49 by javiersa         ###   ########.fr        #
+#    Updated: 2023/04/12 20:08:45 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 CLEAN = rm -Rf
 LIBFTPLUS = libftplus
 MLX42 = MLX42
-SRC = src/read_map.c src/main.c src/menu.c src/picasso.c
+SRC = src/read_map.c src/main.c src/menu.c src/picasso.c src/extract_color_and_z.c
 
 OBJS := $(SRC:.c=.o)
 

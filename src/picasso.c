@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   picasso.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 12:47:23 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:00:42 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
 
 void	ft_normalize(t_fdfvariables	*fdf)
 {
@@ -50,7 +49,7 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 	int	i;
 
 	i = -1;
-	if (fdf->zoom <= 0) //Para nada mas iniciar el mapa o cuando el zoom sea 0, puede que en el futuro no sirva y se eliminaria zoom=0 despues del calloc
+	if (fdf->zoom <= 0)
 	{
 		if ((HEIGHT / fdf->map_height) > (WIDTH / fdf->map_width))
 			fdf->zoom = (HEIGHT / fdf->map_height) / 2;
@@ -60,21 +59,21 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
 		fdf->map[i].x_iso = -1 * (((((i / fdf->map_width) * fdf->zoom)- \
-		((i % fdf->map_width)) * fdf->zoom) * cos(0.523599)));
+		((i % fdf->map_width)) * fdf->zoom) * fdf->x_angle));
 		fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + \
-		((i % fdf->map_width)) * fdf->zoom) * sin(0.523599) - (fdf->map[i].z) * fdf->zoom / 4);
+		((i % fdf->map_width)) * fdf->zoom) * fdf->y_angle - (fdf->map[i].z) * \
+		fdf->zoom * fdf->z_zoom);
 	}
 	ft_normalize(fdf);
 }
 
-void	ft_putrgba(int	i, t_fdfvariables *fdf)
+void	ft_putrgba(int i, t_fdfvariables *fdf)
 {
-	fdf->img->pixels[i] =  fdf->map->r;
-	fdf->img->pixels[i + 1] =  fdf->map->g;
-	fdf->img->pixels[i + 2] =  fdf->map->b;
-	fdf->img->pixels[i + 3] =  fdf->map->a;
+	fdf->img->pixels[i] = fdf->map->r;
+	fdf->img->pixels[i + 1] = fdf->map->g;
+	fdf->img->pixels[i + 2] = fdf->map->b;
+	fdf->img->pixels[i + 3] = fdf->map->a;
 }
-
 
 void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 {
@@ -117,7 +116,6 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 	}
 }
 
-
 void	ft_picasso(t_fdfvariables *fdf)
 {
 	int	i;
@@ -133,9 +131,5 @@ void	ft_picasso(t_fdfvariables *fdf)
 			bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, \
 			fdf->map[i + fdf->map_width].x_iso, \
 			fdf->map[i + fdf->map_width].y_iso, fdf);
-		// if (((i + 1) % fdf->map_width != 0) && (i / fdf->map_width != fdf->map_height - 1))
-		// 	bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width + 1].x_iso, fdf->map[i + fdf->map_width + 1].y_iso, fdf);
-		// if ((i / fdf->map_width != fdf->map_height - 1))
-		// 	bresenham(fdf->map[i].x_iso, fdf->map[i].y_iso, fdf->map[i + fdf->map_width - 1].x_iso, fdf->map[i + fdf->map_width - 1].y_iso, fdf);
 	}
 }
