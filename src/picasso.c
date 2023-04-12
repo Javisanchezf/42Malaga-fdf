@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 21:00:42 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:02:16 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 		if (x > 0 && y > 0)
 			ft_putrgba(((x - 1) * 4) + (fdf->img->width * (y - 1) * 4), fdf);
 		if (x == x2 && y == y2)
-            break;
+			break;
 		e2 = 2 * err;
 		if (e2 > -dy)
 		{
@@ -120,7 +120,8 @@ void	ft_picasso(t_fdfvariables *fdf)
 {
 	int	i;
 
-	ft_memset(fdf->img->pixels, 0, fdf->img->width * fdf->img->height * sizeof(int)); 
+	ft_memset(fdf->img->pixels, 0, fdf->img->width * \
+	fdf->img->height * sizeof(int));
 	i = -1;
 	while (++i < ((fdf->map_height * fdf->map_width)))
 	{
