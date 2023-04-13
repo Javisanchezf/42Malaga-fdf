@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:14:52 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:21:13 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,8 @@ void	ft_normalize(t_fdfvariables	*fdf)
 	}
 }
 
-void	ft_views_and_zoom(t_fdfvariables	*fdf)
+void	ft_checkzoom(t_fdfvariables	*fdf)
 {
-	int	i;
-	int	x;
-	int	y;
-	int	z;
-
-	i = -1;
 	if (fdf->zoom <= 0)
 	{
 		if ((HEIGHT / fdf->map_height) > (WIDTH / fdf->map_width))
@@ -56,6 +50,17 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 		else
 			fdf->zoom = (WIDTH / fdf->map_width) / 2;
 	}
+}
+
+void	ft_views(t_fdfvariables	*fdf)
+{
+	int	i;
+	int	x;
+	int	y;
+	int	z;
+
+	i = -1;
+	ft_checkzoom(fdf);
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
 		x = ((i % fdf->map_width) * fdf->zoom);

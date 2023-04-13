@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 20:43:09 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:18:44 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	hook(void *param)
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
 	{
 		fdf->zoom -= 1;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_L))
 	{
 		fdf->zoom += 1;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
@@ -49,42 +49,42 @@ void	hook(void *param)
 	{
 		if (fdf->z_zoom != 0.01)
 			fdf->z_zoom -= 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_K))
 	{
 		fdf->z_zoom += 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
 	{
 		fdf->x_angle += 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Z))
 	{
 		fdf->x_angle -= 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
 	{
 		fdf->y_angle += 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_X))
 	{
 		fdf->y_angle -= 0.01;
-		ft_views_and_zoom(fdf);
+		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}

@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 20:35:38 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:19:50 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 	if (fd == -1)
 		ft_error("ERROR: Could not read the file.", 0);
 	ft_readmap(fd, fdf);
-	ft_views_and_zoom(fdf);
+	ft_views(fdf);
 	close(fd);
 }
