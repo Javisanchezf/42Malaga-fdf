@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 12:56:57 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 13:36:41 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	ft_views_and_zoom(t_fdfvariables	*fdf)
 		// fdf->map[i].y_iso = ((((i / fdf->map_width) * fdf->zoom) + 
 		// ((i % fdf->map_width)) * fdf->zoom) * fdf->y_angle - (fdf->map[i].z) * 
 		// fdf->zoom * fdf->z_zoom);
-		fdf->map[i].x_iso = (x + 0.5 * z);
-		fdf->map[i].y_iso = (y + 0.5 * z);
-		// fdf->map[i].x_iso = (0.866 * x - y);
-		// fdf->map[i].y_iso = (y + x * 0.47 - z);
+		fdf->map[i].x_iso = x - z;
+		fdf->map[i].y_iso = y - z;
+		// fdf->map[i].x_iso = (0.866 * x - 0.5 * y);
+		// fdf->map[i].y_iso = (0.866 * y + 0.5 * x - z);
 	}
 	ft_normalize(fdf);
 }
