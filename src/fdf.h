@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 20:45:53 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:36:36 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct s_fdfmap
 	uint8_t			g;
 	uint8_t			b;
 	uint8_t			a;
-	int				x_iso;
-	int				y_iso;
+	int				x_draw;
+	int				y_draw;
 }					t_fdfmap;
 
 typedef struct s_fdfvariables
