@@ -6,76 +6,14 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 19:22:25 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:14:22 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_normalize(t_fdfvariables	*fdf)
-{
-	int	i;
-	int	lower[2];
 
-	i = -1;
-	fdf->window_height = 0;
-	fdf->window_width = 0;
-	lower[0] = 0;
-	lower[1] = 0;
-	while (++i < (fdf->map_height * fdf->map_width))
-	{
-		if (lower[0] > fdf->map[i].x_draw)
-			lower[0] = fdf->map[i].x_draw;
-		if (lower[1] > fdf->map[i].y_draw)
-			lower[1] = fdf->map[i].y_draw;
-	}
-	i = -1;
-	while (++i < (fdf->map_height * fdf->map_width))
-	{
-		fdf->map[i].x_draw -= lower[0];
-		fdf->map[i].y_draw -= lower[1];
-		if (fdf->window_width < fdf->map[i].x_draw)
-			fdf->window_width = fdf->map[i].x_draw;
-		if (fdf->window_height < fdf->map[i].y_draw)
-			fdf->window_height = fdf->map[i].y_draw;
-	}
-}
-
-void	ft_views_and_zoom(t_fdfvariables	*fdf)
-{
-	int	i;
-	int	x;
-	int	y;
-	int	z;
-
-	i = -1;
-	if (fdf->zoom <= 0)
-	{
-		if ((HEIGHT / fdf->map_height) > (WIDTH / fdf->map_width))
-			fdf->zoom = (HEIGHT / fdf->map_height) / 2;
-		else
-			fdf->zoom = (WIDTH / fdf->map_width) / 2;
-	}
-	while (++i < (fdf->map_height * fdf->map_width))
-	{
-		x = ((i % fdf->map_width) * fdf->zoom);
-		y = ((i / fdf->map_width) * fdf->zoom);
-		z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-		fdf->map[i].x_draw = (0.866 * x - 0.5 * y);
-		fdf->map[i].y_draw = (0.866 * y + 0.5 * x - z);
-	}
-	ft_normalize(fdf);
-}
-
-void	ft_putrgba(int i, t_fdfvariables *fdf)
-{
-	fdf->img->pixels[i] = fdf->map->r;
-	fdf->img->pixels[i + 1] = fdf->map->g;
-	fdf->img->pixels[i + 2] = fdf->map->b;
-	fdf->img->pixels[i + 3] = fdf->map->a;
-}
-
-void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+typedef struct s_bresenham
 {
 	int	dx;
 	int	dy;
@@ -85,37 +23,56 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 	int	e2;
 	int	x;
 	int	y;
+}					t_bresenham;
 
-	dx = ft_abs(x2 - x1);
-	dy = ft_abs(y2 - y1);
-	if (x1 < x2)
-		sx = 1;
-	else
-		sx = -1;
-	if (y1 < y2)
-		sy = 1;
-	else
-		sy = -1;
-	err = dx - dy;
-	x = x1;
-	y = y1;
-	while (x != x2 || y != y2)
+void	ft_putrgba(int i, t_fdfvariables *fdf)
+{
+	fdf->img->pixels[i] = fdf->map->r;
+	fdf->img->pixels[i + 1] = fdf->map->g;
+	fdf->img->pixels[i + 2] = fdf->map->b;
+	fdf->img->pixels[i + 3] = fdf->map->a;
+}
+
+void	bresenham_aux(t_bresenham	*brshm)
+{
+	if (brshm->e2 > -brshm->dy)
 	{
-		if (x > 0 && y > 0)
-			ft_putrgba((abs(x - 1) * 4) + (fdf->img->width * abs(y - 1) * 4), fdf);
+		brshm->err -= brshm->dy;
+		brshm->x += brshm->sx;
+	}
+	if (brshm->e2 < brshm->dx)
+	{
+		brshm->err += brshm->dx;
+		brshm->y += brshm->sy;
+	}
+}
+
+void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+{
+	t_bresenham	brshm;
+
+	brshm.dx = ft_abs(x2 - x1);
+	brshm.dy = ft_abs(y2 - y1);
+	if (x1 < x2)
+		brshm.sx = 1;
+	else
+		brshm.sx = -1;
+	if (y1 < y2)
+		brshm.sy = 1;
+	else
+		brshm.sy = -1;
+	brshm.err = brshm.dx - brshm.dy;
+	brshm.x = x1;
+	brshm.y = y1;
+	while (brshm.x != x2 || brshm.y != y2)
+	{
+		if (brshm.x > 0 && brshm.y > 0)
+			ft_putrgba((abs(brshm.x - 1) * 4) + \
+			(fdf->img->width * abs(brshm.y - 1) * 4), fdf);
 		else
-			ft_putrgba((x * 4) + (fdf->img->width * y * 4), fdf);
-		e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			x += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			y += sy;
-		}
+			ft_putrgba((brshm.x * 4) + (fdf->img->width * brshm.y * 4), fdf);
+		brshm.e2 = 2 * brshm.err;
+		bresenham_aux(&brshm);
 	}
 }
 

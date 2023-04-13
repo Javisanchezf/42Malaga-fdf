@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:07:49 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 20:51:30 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:38:44 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ void	create_initial_map(char *file, t_fdfvariables *fdf)
 {
 	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap));
 	if (!fdf->map)
-	{
-		ft_free_and_null((void **) &file);
-		error("ERROR: Problem allocating memory, try freeing up space.");
-	}
+		ft_error("Problem allocating memory, try freeing up space.", 1, file);
 	fdf->zoom = 0;
 	fdf->x_angle = 0.8;
 	fdf->y_angle = 0.4;

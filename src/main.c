@@ -6,19 +6,11 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 20:25:23 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:43:09 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	error(char *prompt)
-{
-	ft_putstr_fd("❌ \033[31;1m", 2);
-	ft_putstr_fd(prompt, 2);
-	ft_putstr_fd("\n\033[0m", 2);
-	exit(EXIT_FAILURE);
-}
 
 void	hook(void *param)
 {
@@ -103,7 +95,6 @@ void	ft_leaks(void)
 	system("leaks -q fdf");
 }
 
-
 int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
 {
 	if (n1 > n2)
@@ -121,13 +112,14 @@ int32_t	main(int narg, char **argv)
 	ft_map_construct(argv[1], &fdf);
 	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!fdf.mlx)
-		error("Fallo al iniciar fdf->mlx.");
+		ft_error("MLX INIT FAIL.", 1, fdf.map);
 	fdf.img = mlx_new_image(fdf.mlx, fdf.window_width, fdf.window_height);
 	if (!fdf.img)
-		error("Fallo al crear la imagen.");
+		ft_error("MLX NEW IMAGE FAIL.", 1, fdf.map);
 	ft_picasso(&fdf);
-	if (mlx_image_to_window(fdf.mlx, fdf.img, ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height)))
-		error("Fallo al poner la imagen en la window.");
+	if (mlx_image_to_window(fdf.mlx, fdf.img, \
+	ft_w_center(WIDTH, fdf.img->width), ft_w_center(HEIGHT, fdf.img->height)))
+		ft_error("MLX IMAGE TO WINDOW FAIL.", 1, fdf.map);
 	ft_menu(&fdf);
 	mlx_loop_hook(fdf.mlx, &hook, (void *)&fdf);
 	mlx_loop(fdf.mlx);

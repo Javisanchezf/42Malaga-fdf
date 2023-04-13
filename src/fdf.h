@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 19:24:07 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:16:31 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_fdfvariables
 	float		y_angle;
 }					t_fdfvariables;
 
-void		error(char *prompt);
 void		ft_menu(t_fdfvariables	*fdf);
 void		ft_picasso(t_fdfvariables *fdf);
 void		ft_map_construct(char *file, t_fdfvariables	*fdf);
