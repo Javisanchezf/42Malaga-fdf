@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 20:21:06 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:21:58 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 	{
 		if (fdf->map_width != ft_count_words(line))
 		{
-			ft_free_and_null((void **) &aux);
-			ft_free_and_null((void **) &line);
+			ft_multiple_free(2, aux, line);
 			error("ERROR: The file does not contain a valid map.");
 		}
 		aux = ft_freeandjoin(aux, line);
