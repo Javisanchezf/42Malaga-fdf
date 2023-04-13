@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/12 20:20:21 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:21:06 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 		line = get_next_line(fd);
 	}
 	ft_extract_colorandz(aux, fdf);
-	ft_free_and_null((void **) &aux);
+	ft_multiple_free(2, aux, line);
 }
 
 void	ft_map_construct(char *file, t_fdfvariables	*fdf)

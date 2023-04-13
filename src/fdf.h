@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 18:36:36 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:24:07 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # define WIDTH 1920
 # define HEIGHT 1024
 # include "../libftplus/libftplus.h"
-# include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_fdfmap

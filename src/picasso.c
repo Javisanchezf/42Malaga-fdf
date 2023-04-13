@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 18:48:24 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:22:25 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 	int	x;
 	int	y;
 
-	dx = abs(x2 - x1);
-	dy = abs(y2 - y1);
+	dx = ft_abs(x2 - x1);
+	dy = ft_abs(y2 - y1);
 	if (x1 < x2)
 		sx = 1;
 	else
