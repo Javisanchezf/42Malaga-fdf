@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 18:15:28 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/14 20:01:33 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 void	hook(void *param)
 {
 	t_fdfvariables	*fdf;
-	// int32_t*	y1 = 0;
-	// int32_t*	x1 = 0;
-	// int32_t*	y2 = 0;
-	// int32_t*	x2 = 0;
 
 	fdf = param;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
@@ -31,49 +27,48 @@ void	hook(void *param)
 		fdf->img->instances->x -= 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
 		fdf->img->instances->x += 5;
-	// if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_LEFT))
-	// {
-	// 	mlx_get_mouse_pos(fdf->mlx, x1, y1);
-	// 	mlx_get_mouse_pos(fdf->mlx, x2, y2);
-	// 	fdf->img->instances->x += x2 - x1 + 1;
-	// 	fdf->img->instances->y += y2 - y1 + 1;
-	// }
-	// if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
-	// 	fdf->menu->enabled = 0;
-	// if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
-	// 	fdf->menu->enabled = 1;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
 	{
-		if (fdf->z_zoom != 0.01)
-			fdf->z_zoom -= 0.01;
+		fdf->z_zoom -= 0.01;
 		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_K))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
 	{
 		fdf->z_zoom += 0.01;
 		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
-	// 	int32_t*	y1 = ft_calloc(32, 1);
-	// int32_t*	x1 = ft_calloc(32, 1);
-	// int32_t*	y2 = ft_calloc(32, 1);
-	// int32_t*	x2 = ft_calloc(32, 1);
-	// if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_LEFT))
-	// {
-	// 	mlx_get_mouse_pos(fdf->mlx, x1, y1);
-	// 	mlx_get_mouse_pos(fdf->mlx, x1, y1);
-	// 	// ft_printf("X1:%d Y1:%d , X2: %d Y2:%d\n",x1,y1,x1,y1);
-	// 	fdf->img->instances->x -= (x2 - x1) % 10;
-	// 	fdf->img->instances->y -= (y2 - y1) % 10;
-	// }
-
-	// free(x1);
-	// free(y1);
-	// free(x2);
-	// free(y2);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
+	{
+		fdf->x_zoom -= 0.01;
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_D))
+	{
+		fdf->x_zoom += 0.01;
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
+	{
+		fdf->view = 'I';
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_C))
+	{
+		fdf->view = 'C';
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
 }
 
 void	ft_leaks(void)
@@ -144,7 +139,7 @@ int32_t	main(int narg, char **argv)
 	if (narg != 2 || !argv[1])
 		return (1);
 	ft_map_construct(argv[1], &fdf);
-	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
+	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF - javiersa", true);
 	if (!fdf.mlx)
 		ft_error("MLX INIT FAIL.", 1, fdf.map);
 	fdf.img = mlx_new_image(fdf.mlx, fdf.window_width, fdf.window_height);

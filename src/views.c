@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   views.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:21:13 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/14 19:57:54 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,27 @@ void	ft_views(t_fdfvariables	*fdf)
 
 	i = -1;
 	ft_checkzoom(fdf);
-	while (++i < (fdf->map_height * fdf->map_width))
+	if (fdf->view == 'I')
 	{
-		x = ((i % fdf->map_width) * fdf->zoom);
-		y = ((i / fdf->map_width) * fdf->zoom);
-		z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-		fdf->map[i].x_draw = (0.866 * x - 0.5 * y);
-		fdf->map[i].y_draw = (0.866 * y + 0.5 * x - z);
+		while (++i < (fdf->map_height * fdf->map_width))
+		{
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom);
+			y = ((i / fdf->map_width) * fdf->zoom);
+			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+			fdf->map[i].x_draw = (0.866 * x - 0.5 * y);
+			fdf->map[i].y_draw = (0.866 * y + 0.5 * x - z);
+		}
+	}
+	else if (fdf->view == 'C')
+	{
+		while (++i < (fdf->map_height * fdf->map_width))
+		{
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom);
+			y = ((i / fdf->map_width) * fdf->zoom);
+			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+			fdf->map[i].x_draw = (x - 0.71 * z) - 0.71 * (y - 0.71 * z);
+			fdf->map[i].y_draw = (y - 0.71 * z);
+		}
 	}
 	ft_normalize(fdf);
 }

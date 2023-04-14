@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_color_and_z.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:07:49 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 20:38:44 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/14 19:57:58 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	create_initial_map(char *file, t_fdfvariables *fdf)
 	if (!fdf->map)
 		ft_error("Problem allocating memory, try freeing up space.", 1, file);
 	fdf->zoom = 0;
-	fdf->x_angle = 0.8;
-	fdf->y_angle = 0.4;
 	fdf->z_zoom = 0.4;
+	fdf->view = 'I';
+	fdf->x_zoom = 1;
 }
 
 void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
