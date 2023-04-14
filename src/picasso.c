@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   picasso.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:14:22 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/14 21:22:54 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ typedef struct s_bresenham
 	int	y;
 }					t_bresenham;
 
-void	ft_putrgba(int i, t_fdfvariables *fdf)
+void	ft_putrgba(int i, t_fdfvariables *fdf, int j)
 {
-	fdf->img->pixels[i] = fdf->map->r;
-	fdf->img->pixels[i + 1] = fdf->map->g;
-	fdf->img->pixels[i + 2] = fdf->map->b;
-	fdf->img->pixels[i + 3] = fdf->map->a;
+	fdf->img->pixels[i] = fdf->map[j].r;
+	fdf->img->pixels[i + 1] = fdf->map[j].g;
+	fdf->img->pixels[i + 2] = fdf->map[j].b;
+	fdf->img->pixels[i + 3] = fdf->map[j].a;
 }
 
 void	bresenham_aux(t_bresenham	*brshm)
@@ -47,7 +47,7 @@ void	bresenham_aux(t_bresenham	*brshm)
 	}
 }
 
-void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+void	bresenham(int position1, int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 {
 	t_bresenham	brshm;
 
@@ -66,11 +66,8 @@ void	bresenham(int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 	brshm.y = y1;
 	while (brshm.x != x2 || brshm.y != y2)
 	{
-		if (brshm.x > 0 && brshm.y > 0)
-			ft_putrgba((abs(brshm.x - 1) * 4) + \
-			(fdf->img->width * abs(brshm.y - 1) * 4), fdf);
-		else
-			ft_putrgba((brshm.x * 4) + (fdf->img->width * brshm.y * 4), fdf);
+		ft_putrgba((abs(brshm.x - 1) * 4) + \
+		(fdf->img->width * abs(brshm.y - 1) * 4), fdf, position1);
 		brshm.e2 = 2 * brshm.err;
 		bresenham_aux(&brshm);
 	}
@@ -86,10 +83,10 @@ void	ft_picasso(t_fdfvariables *fdf)
 	while (++i < ((fdf->map_height * fdf->map_width)))
 	{
 		if ((i + 1) % fdf->map_width != 0)
-			bresenham(fdf->map[i].x_draw, fdf->map[i].y_draw, \
+			bresenham(i + 1, fdf->map[i].x_draw, fdf->map[i].y_draw, \
 			fdf->map[i + 1].x_draw, fdf->map[i + 1].y_draw, fdf);
 		if (i / fdf->map_width != fdf->map_height - 1)
-			bresenham(fdf->map[i].x_draw, fdf->map[i].y_draw, \
+			bresenham(i + fdf->map_width, fdf->map[i].x_draw, fdf->map[i].y_draw, \
 			fdf->map[i + fdf->map_width].x_draw, \
 			fdf->map[i + fdf->map_width].y_draw, fdf);
 	}
