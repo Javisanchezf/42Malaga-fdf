@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:07:49 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 20:24:59 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:20:30 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	create_initial_map(char *file, t_fdfvariables *fdf)
 	fdf->map = ft_calloc((fdf->map_height * fdf->map_width), sizeof(t_fdfmap));
 	if (!fdf->map)
 		ft_error("Problem allocating memory, try freeing up space.", 1, file);
+	fdf->z_max = 0;
 	fdf->zoom = 0;
 	fdf->z_zoom = 0.4;
 	fdf->x_zoom = 1;
+	fdf->radians = 0;
 	fdf->view = 'I';
 }
 
@@ -88,6 +90,8 @@ void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 		while (ft_isdigit(file[i]) || file[i] == '-')
 			i++;
 		fdf->map[k].z = ft_takenbr(file, j, i - j);
+		if (fdf->map[k].z > fdf->z_max)
+			fdf->z_max = fdf->map[k].z;
 		ft_takecolor(file, fdf, &i, k);
 		if (k % fdf->map_width == 0)
 			ft_printf("Construido %d/%d\n", (k / fdf->map_width) + 1, fdf->map_height);

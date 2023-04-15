@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 20:20:20 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:27:02 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	ft_views(t_fdfvariables	*fdf)
 	{
 		while (++i < (fdf->map_height * fdf->map_width))
 		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom);
-			y = ((i / fdf->map_width) * fdf->zoom);
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
 			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
 			fdf->map[i].x_draw = (0.866 * x - 0.5 * y);
 			fdf->map[i].y_draw = (0.866 * y + 0.5 * x - z);
@@ -76,11 +76,33 @@ void	ft_views(t_fdfvariables	*fdf)
 	{
 		while (++i < (fdf->map_height * fdf->map_width))
 		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom);
-			y = ((i / fdf->map_width) * fdf->zoom);
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
 			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
 			fdf->map[i].x_draw = (x - 0.71 * z) - 0.71 * (y - 0.71 * z);
 			fdf->map[i].y_draw = (y - 0.71 * z);
+		}
+	}
+	else if (fdf->view == 'P')
+	{
+		while (++i < (fdf->map_height * fdf->map_width))
+		{
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+			fdf->map[i].x_draw = x;
+			fdf->map[i].y_draw = y;
+		}
+	}
+	else if (fdf->view == 'O')
+	{
+		while (++i < (fdf->map_height * fdf->map_width))
+		{
+			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+			fdf->map[i].x_draw = y;
+			fdf->map[i].y_draw = -z;
 		}
 	}
 	ft_normalize(fdf);

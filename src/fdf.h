@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 20:24:53 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:22:18 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FDF_H
 # define WIDTH 1920
 # define HEIGHT 1024
+# include <math.h>
 # include "../libftplus/libftplus.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
@@ -38,9 +39,11 @@ typedef struct s_fdfvariables
 	int			map_height;
 	int			window_width;
 	int			window_height;
+	int			z_max;
 	int			zoom;
 	float		z_zoom;
 	float		x_zoom;
+	double		radians;
 	char		view;
 }					t_fdfvariables;
 

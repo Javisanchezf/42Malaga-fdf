@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 20:59:15 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:45:30 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	ft_picasso_colors(int colors, t_fdfvariables *fdf)
 	{
 		while (++i < (fdf->map_height * fdf->map_width))
 		{
-			if (fdf->map[i].z == 0)
-				ft_piccaso_brush(0, 128, 0, &fdf->map[i]);
-			else if (fdf->map[i].z > 0)
-				ft_piccaso_brush(128, 64, 0, &fdf->map[i]);
+			if (fdf->map[i].z == fdf->z_max)
+				ft_piccaso_brush(255, 255, 255, &fdf->map[i]);
+			else if (fdf->map[i].z >= 0)
+				ft_piccaso_brush(80, 100 - (fdf->map[i].z * 60 / fdf->z_max), 0, &fdf->map[i]);
 			else if (fdf->map[i].z < 0)
 				ft_piccaso_brush(0, 0, 128, &fdf->map[i]);
 		}
@@ -69,6 +69,20 @@ void	hook(void *param)
 		ft_picasso_colors(1, fdf);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_2))
 		ft_picasso_colors(2, fdf);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y))
+	{
+		fdf->radians += 1 * M_PI / 180.0;
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
+	{
+		fdf->radians -= 1 * M_PI / 180.0;
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
 	{
 		fdf->z_zoom -= 0.01;
@@ -111,6 +125,20 @@ void	hook(void *param)
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
 		ft_picasso(fdf);
 	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_P))
+	{
+		fdf->view = 'P';
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
+	{
+		fdf->view = 'O';
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+	}
 }
 
 void	ft_leaks(void)
@@ -140,6 +168,37 @@ void scroll_hook(double xdelta, double ydelta, void* param)
 	}
 }
 
+void	cursor_hook2(double x2, double y2, void *param)
+{
+	t_fdfvariables	*fdf;
+	static int		i = 10;
+	static double	y1 = 0;
+	// static double	x1 = 0;
+(void)x2;
+	fdf = param;
+
+	if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_RIGHT))
+	{
+		if (i == 10)
+		{
+			// fdf->radians += ((long)x2 - (long)x1) % 10 ;
+			fdf->radians += ((long)y2 - (long)y1) % 1000 / 100;
+			// x1 = x2;
+			y1 = y2;
+			i = 0;
+		}
+		else
+		{
+			// fdf->radians += ((long)x2 - (long)x1) % 10 ;
+			fdf->radians += ((long)y2 - (long)y1) % 1000 / 100;
+		}
+		ft_views(fdf);
+		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+		ft_picasso(fdf);
+		i++;
+	}
+}
+
 void	cursor_hook(double x2, double y2, void *param)
 {
 	t_fdfvariables	*fdf;
@@ -148,6 +207,7 @@ void	cursor_hook(double x2, double y2, void *param)
 	static double	x1 = 0;
 
 	fdf = param;
+	cursor_hook2(x2, y2, param);
 	if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		if (i == 2)
@@ -166,6 +226,7 @@ void	cursor_hook(double x2, double y2, void *param)
 		i++;
 	}
 }
+
 int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
 {
 	if (n1 > n2)

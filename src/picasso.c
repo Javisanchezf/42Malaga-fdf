@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 21:22:54 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 11:39:51 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	bresenham_aux(t_bresenham	*brshm)
 	}
 }
 
-void	bresenham(int position1, int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+void	bresenham(int position, int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
 {
 	t_bresenham	brshm;
 
@@ -66,8 +66,8 @@ void	bresenham(int position1, int x1, int y1, int x2, int y2, t_fdfvariables *fd
 	brshm.y = y1;
 	while (brshm.x != x2 || brshm.y != y2)
 	{
-		ft_putrgba((abs(brshm.x - 1) * 4) + \
-		(fdf->img->width * abs(brshm.y - 1) * 4), fdf, position1);
+		ft_putrgba((ft_abs(brshm.x - 1) * 4) + \
+		(fdf->img->width * ft_abs(brshm.y - 1) * 4), fdf, position);
 		brshm.e2 = 2 * brshm.err;
 		bresenham_aux(&brshm);
 	}
@@ -76,19 +76,29 @@ void	bresenham(int position1, int x1, int y1, int x2, int y2, t_fdfvariables *fd
 void	ft_picasso(t_fdfvariables *fdf)
 {
 	int	i;
+	int	aux;
 
 	ft_memset(fdf->img->pixels, 0, fdf->img->width * \
 	fdf->img->height * sizeof(int));
 	i = -1;
 	while (++i < ((fdf->map_height * fdf->map_width)))
 	{
+		aux = i;
 		if ((i + 1) % fdf->map_width != 0)
-			bresenham(i + 1, fdf->map[i].x_draw, fdf->map[i].y_draw, \
+		{
+			if (fdf->map[i].z < fdf->map[i + 1].z)
+				aux = i + 1;
+			bresenham(aux, fdf->map[i].x_draw, fdf->map[i].y_draw, \
 			fdf->map[i + 1].x_draw, fdf->map[i + 1].y_draw, fdf);
+		}
 		if (i / fdf->map_width != fdf->map_height - 1)
-			bresenham(i + fdf->map_width, fdf->map[i].x_draw, fdf->map[i].y_draw, \
+		{
+			if (fdf->map[i].z < fdf->map[i + fdf->map_width].z)
+				aux = i + fdf->map_width;
+			bresenham(aux, fdf->map[i].x_draw, fdf->map[i].y_draw, \
 			fdf->map[i + fdf->map_width].x_draw, \
 			fdf->map[i + fdf->map_width].y_draw, fdf);
+		}
 	}
 }
 
