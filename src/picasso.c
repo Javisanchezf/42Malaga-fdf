@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   picasso.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 11:39:51 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:05:13 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,59 +101,3 @@ void	ft_picasso(t_fdfvariables *fdf)
 		}
 	}
 }
-
-
-// typedef struct s_point
-// {
-//     int x;
-//     int y;
-// } t_point;
-
-// void transformarCoordenadas(float x, float y, float z, char vista, t_point *punto) {
-//     if (vista == 'I') { // Vista Isométrica
-//         punto->x = (int)(0.866 * x + 0.5 * y);
-//         punto->y = (int)(-0.5 * x + 0.866 * y - z);
-//     } else if (vista == 'C') { // Vista Caballera
-//         punto->x = (int)(x + 0.5 * z);
-//         punto->y = (int)(y + 0.5 * z);
-//     } else if (vista == 'O') { // Vista Cónica
-//         punto->x = (int)(x / z);
-//         punto->y = (int)(y / z);
-//     } else {
-//         printf("Vista no válida.\n");
-//         exit(1);
-//     }
-// }
-
-// void aplicarRotacion(float *x, float *y, float angulo) {
-//     float x_orig = *x;
-//     float y_orig = *y;
-//     float radianes = angulo * M_PI / 180.0;
-//     *x = x_orig * cos(radianes) - y_orig * sin(radianes);
-//     *y = x_orig * sin(radianes) + y_orig * cos(radianes);
-// }
-
-// int main() {
-//     void *mlx_ptr;
-//     void *win_ptr;
-//     t_point punto_2d;
-
-//     float x = 3.0;
-//     float y = 4.0;
-//     float z = 5.0;
-//     char vista = 'I';
-
-//     // Transformar las coordenadas a 2D para poder dibujarlas con MINILIBX
-//     transformarCoordenadas(x, y, z, vista, &punto_2d);
-
-//     // Aplicar una rotación adicional de 45 grados
-//     aplicarRotacion(&punto_2d.x, &punto_2d.y, 45.0);
-
-//     // Iniciar MINILIBX y dibujar el punto
-//     mlx_ptr = mlx_init();
-//     win_ptr = mlx_new_window(mlx_ptr, 800, 600, "Ejemplo");
-//     mlx_pixel_put(mlx_ptr, win_ptr, punto_2d.x, punto_2d.y, 0xFFFFFF);
-//     mlx_loop(mlx_ptr);
-
-//     return 0;
-// }
