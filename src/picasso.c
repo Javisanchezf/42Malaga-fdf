@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:53:48 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 17:05:13 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:36:47 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ typedef struct s_bresenham
 	int	x;
 	int	y;
 }					t_bresenham;
+
+typedef struct s_coords2D
+{
+	int				x;
+	int				y;
+}					t_coords;
 
 void	ft_putrgba(int i, t_fdfvariables *fdf, int j)
 {
@@ -47,30 +53,39 @@ void	bresenham_aux(t_bresenham	*brshm)
 	}
 }
 
-void	bresenham(int position, int x1, int y1, int x2, int y2, t_fdfvariables *fdf)
+void	bresenham(int position, t_coords c1, t_coords c2, t_fdfvariables *fdf)
 {
 	t_bresenham	brshm;
 
-	brshm.dx = ft_abs(x2 - x1);
-	brshm.dy = ft_abs(y2 - y1);
-	if (x1 < x2)
+	brshm.dx = ft_abs(c2.x - c1.x);
+	brshm.dy = ft_abs(c2.y - c1.y);
+	if (c1.x < c2.x)
 		brshm.sx = 1;
 	else
 		brshm.sx = -1;
-	if (y1 < y2)
+	if (c1.y < c2.y)
 		brshm.sy = 1;
 	else
 		brshm.sy = -1;
 	brshm.err = brshm.dx - brshm.dy;
-	brshm.x = x1;
-	brshm.y = y1;
-	while (brshm.x != x2 || brshm.y != y2)
+	brshm.x = c1.x;
+	brshm.y = c1.y;
+	while (brshm.x != c2.x || brshm.y != c2.y)
 	{
 		ft_putrgba((ft_abs(brshm.x - 1) * 4) + \
 		(fdf->img->width * ft_abs(brshm.y - 1) * 4), fdf, position);
 		brshm.e2 = 2 * brshm.err;
 		bresenham_aux(&brshm);
 	}
+}
+
+t_coords	coords(int x, int y)
+{
+	t_coords	coords;
+
+	coords.x = x;
+	coords.y = y;
+	return (coords);
 }
 
 void	ft_picasso(t_fdfvariables *fdf)
@@ -88,16 +103,16 @@ void	ft_picasso(t_fdfvariables *fdf)
 		{
 			if (fdf->map[i].z < fdf->map[i + 1].z)
 				aux = i + 1;
-			bresenham(aux, fdf->map[i].x_draw, fdf->map[i].y_draw, \
-			fdf->map[i + 1].x_draw, fdf->map[i + 1].y_draw, fdf);
+			bresenham(aux, coords(fdf->map[i].x_draw, fdf->map[i].y_draw), \
+			coords(fdf->map[i + 1].x_draw, fdf->map[i + 1].y_draw), fdf);
 		}
 		if (i / fdf->map_width != fdf->map_height - 1)
 		{
 			if (fdf->map[i].z < fdf->map[i + fdf->map_width].z)
 				aux = i + fdf->map_width;
-			bresenham(aux, fdf->map[i].x_draw, fdf->map[i].y_draw, \
-			fdf->map[i + fdf->map_width].x_draw, \
-			fdf->map[i + fdf->map_width].y_draw, fdf);
+			bresenham(aux, coords(fdf->map[i].x_draw, fdf->map[i].y_draw), \
+			coords(fdf->map[i + fdf->map_width].x_draw, \
+			fdf->map[i + fdf->map_width].y_draw), fdf);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/14 19:13:31 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:12:59 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 		ft_error("Problem allocating memory, try freeing up space.", 0);
 	line = get_next_line(fd);
 	if (!line)
-		ft_error("Problem allocating memory, try freeing up space.", 1, aux);
+		ft_error("The file does not contain a valid map.", 1, aux);
 	fdf->map_width = ft_count_words(line);
 	while (line && ++fdf->map_height)
 	{
@@ -42,7 +42,7 @@ void	ft_map_construct(char *file, t_fdfvariables	*fdf)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		ft_error("ERROR: Could not read the file.", 0);
+		ft_error("Could not read the file.", 0);
 	ft_readmap(fd, fdf);
 	ft_views(fdf);
 	close(fd);

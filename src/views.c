@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   views.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 12:27:02 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:23:49 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+typedef struct s_coords
+{
+	int				x;
+	int				y;
+	int				z;
+}					t_coords;
 
 void	ft_normalize(t_fdfvariables	*fdf)
 {
@@ -52,58 +59,46 @@ void	ft_checkzoom(t_fdfvariables	*fdf)
 	}
 }
 
-void	ft_views(t_fdfvariables	*fdf)
+void	ft_set_coords(int i, t_coords c, t_fdfvariables *fdf)
 {
-	int	i;
-	int	x;
-	int	y;
-	int	z;
-
-	i = -1;
-	ft_checkzoom(fdf);
 	if (fdf->view == 'I')
 	{
-		while (++i < (fdf->map_height * fdf->map_width))
-		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-			fdf->map[i].x_draw = (0.866 * x - 0.5 * y);
-			fdf->map[i].y_draw = (0.866 * y + 0.5 * x - z);
-		}
+		fdf->map[i].x_draw = (0.866 * c.x - 0.5 * c.y);
+		fdf->map[i].y_draw = (0.866 * c.y + 0.5 * c.x - c.z);
 	}
 	else if (fdf->view == 'C')
 	{
-		while (++i < (fdf->map_height * fdf->map_width))
-		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-			fdf->map[i].x_draw = (x - 0.71 * z) - 0.71 * (y - 0.71 * z);
-			fdf->map[i].y_draw = (y - 0.71 * z);
-		}
+		fdf->map[i].x_draw = (c.x - 0.71 * c.z) - 0.71 * (c.y - 0.71 * c.z);
+		fdf->map[i].y_draw = (c.y - 0.71 * c.z);
 	}
 	else if (fdf->view == 'P')
 	{
-		while (++i < (fdf->map_height * fdf->map_width))
-		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-			fdf->map[i].x_draw = x;
-			fdf->map[i].y_draw = y;
-		}
+		fdf->map[i].x_draw = c.x;
+		fdf->map[i].y_draw = c.y;
 	}
 	else if (fdf->view == 'O')
 	{
-		while (++i < (fdf->map_height * fdf->map_width))
-		{
-			x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) + ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-			z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
-			fdf->map[i].x_draw = y;
-			fdf->map[i].y_draw = -z;
-		}
+		fdf->map[i].x_draw = c.y;
+		fdf->map[i].y_draw = -c.z;
+	}
+}
+
+void	ft_views(t_fdfvariables	*fdf)
+{
+	int			i;
+	t_coords	coord;
+
+	i = -1;
+	ft_checkzoom(fdf);
+	while (++i < (fdf->map_height * fdf->map_width))
+	{
+		coord.x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * \
+		cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * \
+		sin(fdf->radians);
+		coord.y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) \
+		+ ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
+		coord.z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+		ft_set_coords(i, coord, fdf);
 	}
 	ft_normalize(fdf);
 }
