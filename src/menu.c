@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 20:55:58 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 11:26:08 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:47:05 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_menu(t_fdfvariables	*fdf)
 	mlx_put_string(fdf->mlx, "[ESC]: Close the window", 5, 10 + LINE * i++);
 	i++;
 	mlx_put_string(fdf->mlx, "---COLORS CONTROL---", 15, 10 + LINE * i++);
-	mlx_put_string(fdf->mlx, "[0]: Default", 5, 10 + LINE * i++);
-	mlx_put_string(fdf->mlx, "[1]: White", 5, 10 + LINE * i++);
-	mlx_put_string(fdf->mlx, "[2]: Earth", 5, 10 + LINE * i++);
+	mlx_put_string(fdf->mlx, "[0]: Earth", 5, 10 + LINE * i++);
+	mlx_put_string(fdf->mlx, "[1]: Default", 5, 10 + LINE * i++);
+	mlx_put_string(fdf->mlx, "[2]: White", 5, 10 + LINE * i++);
+	mlx_put_string(fdf->mlx, "[2]: Black", 5, 10 + LINE * i++);
 }

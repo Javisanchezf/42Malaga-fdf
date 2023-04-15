@@ -6,11 +6,27 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 17:03:03 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:48:34 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	remake(int reset, t_fdfvariables *fdf)
+{
+	if (reset == 0)
+	{
+		fdf->z_max = 0;
+		fdf->zoom = 0;
+		fdf->z_zoom = 0.4;
+		fdf->x_zoom = 1;
+		fdf->radians = 0;
+		fdf->radians2 = 0;
+	}
+	ft_views(fdf);
+	mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+	ft_picasso(fdf);
+}
 
 void	hook(void *param)
 {
@@ -33,75 +49,57 @@ void	hook(void *param)
 		ft_picasso_colors(1, fdf);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_2))
 		ft_picasso_colors(2, fdf);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_3))
+		ft_picasso_colors(3, fdf);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y))
 	{
 		fdf->radians += 1 * M_PI / 180.0;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
 	{
 		fdf->radians -= 1 * M_PI / 180.0;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_S))
 	{
 		fdf->z_zoom -= 0.01;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_W))
 	{
 		fdf->z_zoom += 0.01;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_A))
 	{
 		fdf->x_zoom -= 0.01;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_D))
 	{
 		fdf->x_zoom += 0.01;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_I))
 	{
 		fdf->view = 'I';
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(0, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_C))
 	{
 		fdf->view = 'C';
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(0, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_P))
 	{
 		fdf->view = 'P';
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(0, fdf);
 	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
 	{
 		fdf->view = 'O';
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(0, fdf);
 	}
 }
 
@@ -110,7 +108,7 @@ void	ft_leaks(void)
 	system("leaks -q fdf");
 }
 
-void scroll_hook(double xdelta, double ydelta, void* param)
+void	scroll_hook(double xdelta, double ydelta, void* param)
 {
 	t_fdfvariables	*fdf;
 
@@ -119,42 +117,35 @@ void scroll_hook(double xdelta, double ydelta, void* param)
 	if (ydelta > 0)
 	{
 		fdf->zoom += 1;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 	else if (ydelta < 0)
 	{
 		fdf->zoom -= 1;
-		ft_views(fdf);
-		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-		ft_picasso(fdf);
+		remake(1, fdf);
 	}
 }
 
-void	cursor_hook2(double x2, double y2, void *param)
+void	rotation_cursor_hook(double x2, double y2, t_fdfvariables *fdf)
 {
-	t_fdfvariables	*fdf;
-	static int		i = 10;
+	static int		i = 2;
 	static double	y1 = 0;
-	// static double	x1 = 0;
-(void)x2;
-	fdf = param;
+	static double	x1 = 0;
 
 	if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_RIGHT))
 	{
-		if (i == 10)
+		if (i == 2)
 		{
-			// fdf->radians += ((long)x2 - (long)x1) % 10 ;
-			fdf->radians += ((long)y2 - (long)y1) % 1000 / 100;
-			// x1 = x2;
+			fdf->radians -= ((long)x2 - (long)x1) % 100 / 10 * M_PI / 180.0;
+			fdf->radians2 -= ((long)y2 - (long)y1) % 100 / 10 * M_PI / 180.0;
+			x1 = x2;
 			y1 = y2;
 			i = 0;
 		}
 		else
 		{
-			// fdf->radians += ((long)x2 - (long)x1) % 10 ;
-			fdf->radians += ((long)y2 - (long)y1) % 1000 / 100;
+			fdf->radians -= ((long)x2 - (long)x1) % 100 / 10 * M_PI / 180.0;
+			fdf->radians2 -= ((long)y2 - (long)y1) % 100 / 10 * M_PI / 180.0;
 		}
 		ft_views(fdf);
 		mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
@@ -171,21 +162,21 @@ void	cursor_hook(double x2, double y2, void *param)
 	static double	x1 = 0;
 
 	fdf = param;
-	cursor_hook2(x2, y2, param);
+	rotation_cursor_hook(x2, y2, param);
 	if (mlx_is_mouse_down(fdf->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
 		if (i == 2)
 		{
-			fdf->img->instances->x += ((long)x2 - (long)x1) % 10 ;
-			fdf->img->instances->y += ((long)y2 - (long)y1) % 10 ;
+			fdf->img->instances->x += ((long)x2 - (long)x1) % 30 ;
+			fdf->img->instances->y += ((long)y2 - (long)y1) % 30 ;
 			x1 = x2;
 			y1 = y2;
 			i = 0;
 		}
 		else
 		{
-			fdf->img->instances->x += ((long)x2 - (long)x1) % 10 ;
-			fdf->img->instances->y += ((long)y2 - (long)y1) % 10 ;
+			fdf->img->instances->x += ((long)x2 - (long)x1) % 30 ;
+			fdf->img->instances->y += ((long)y2 - (long)y1) % 30 ;
 		}
 		i++;
 	}

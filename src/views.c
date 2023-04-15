@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 17:23:49 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:29:47 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_set_coords(int i, t_coords c, t_fdfvariables *fdf)
 	}
 	else if (fdf->view == 'O')
 	{
-		fdf->map[i].x_draw = c.y;
+		fdf->map[i].x_draw = c.y + c.x;
 		fdf->map[i].y_draw = -c.z;
 	}
 }
@@ -92,12 +92,17 @@ void	ft_views(t_fdfvariables	*fdf)
 	ft_checkzoom(fdf);
 	while (++i < (fdf->map_height * fdf->map_width))
 	{
-		coord.x = fdf->x_zoom * ((i % fdf->map_width) * fdf->zoom) * \
+		coord.x = (fdf->x_zoom * (i % fdf->map_width) * fdf->zoom) * \
 		cos(fdf->radians) - ((i / fdf->map_width) * fdf->zoom) * \
 		sin(fdf->radians);
 		coord.y = ((i / fdf->map_width) * fdf->zoom) * cos(fdf->radians) \
-		+ ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians);
-		coord.z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom);
+		* cos(fdf->radians2) \
+		+ ((i % fdf->map_width) * fdf->zoom) * sin(fdf->radians) \
+		- (fdf->map[i].z * fdf->zoom * fdf->z_zoom) * sin(fdf->radians2);
+		coord.z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom) * \
+		cos(fdf->radians2) \
+		+ ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians2);
+
 		ft_set_coords(i, coord, fdf);
 	}
 	ft_normalize(fdf);

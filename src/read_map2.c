@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_color_and_z.c                              :+:      :+:    :+:   */
+/*   read_map2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:07:49 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 16:56:54 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:54:05 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	create_initial_map(char *file, t_fdfvariables *fdf)
 	fdf->z_zoom = 0.4;
 	fdf->x_zoom = 1;
 	fdf->radians = 0;
+	fdf->radians2 = 0;
 	fdf->view = 'I';
 }
 

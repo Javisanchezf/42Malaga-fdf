@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 17:23:44 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:41:16 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_fdfvariables
 	float		z_zoom;
 	float		x_zoom;
 	double		radians;
+	double		radians2;
 	char		view;
 }					t_fdfvariables;
 
@@ -53,5 +54,6 @@ void		ft_map_construct(char *file, t_fdfvariables	*fdf);
 void		ft_views(t_fdfvariables	*fdf);
 void		ft_extract_colorandz(char *file, t_fdfvariables *fdf);
 void		ft_picasso_colors(int colors, t_fdfvariables *fdf);
+void		remake(int reset, t_fdfvariables *fdf);
 
 #endif
