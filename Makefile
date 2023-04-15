@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+         #
+#    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/04/15 11:56:00 by javiersa         ###   ########.fr        #
+#    Updated: 2023/04/15 17:01:04 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,8 @@ all: libftplusmake mlx42make $(PROGRAM)
 
 $(PROGRAM): $(NAME)
 	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a $(MLX42)/libmlx42.a -lm -I include -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $(PROGRAM)
-	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
-ubuntu: libftplusmakeubuntu mlx42make $(NAME)
-	@$(CC) $(CFLAGS) $(NAME) $(LIBFTPLUS)/libftplus.a $(MLX42)/libmlx42.a -lm -I include -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $(PROGRAM)
-	@echo "$(GREEN)$(PERSONALNAME) -> Program created successfully.$(DEFAULT)"
+	@echo "$(MAGENTA)Program $(PERSONALNAME) created successfully.$(DEFAULT)"
+
 .c.o:
 	@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
 	@echo "$(GREEN)Compiling:$(DEFAULT) $(notdir $<)"
