@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_color_and_z.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 20:07:49 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 12:20:30 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:56:54 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	ft_extract_colorandz(char *file, t_fdfvariables *fdf)
 		if (fdf->map[k].z > fdf->z_max)
 			fdf->z_max = fdf->map[k].z;
 		ft_takecolor(file, fdf, &i, k);
-		if (k % fdf->map_width == 0)
-			ft_printf("Construido %d/%d\n", (k / fdf->map_width) + 1, fdf->map_height);
 		k++;
 	}
 }
