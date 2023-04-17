@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 17:26:07 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:22:25 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:21:05 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	views_hook(t_fdfvariables *fdf)
 		fdf->view = 'C';
 		remake(0, fdf);
 	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_P))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_F))
 	{
-		fdf->view = 'P';
+		fdf->view = 'F';
 		remake(0, fdf);
 	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_O))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_T))
 	{
-		fdf->view = 'O';
+		fdf->view = 'T';
 		remake(0, fdf);
 	}
 }
