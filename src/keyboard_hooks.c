@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 17:26:07 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:09:33 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:22:25 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,14 @@ void	keyboard_hooks(void *param)
 		fdf->img->instances->x -= 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
 		fdf->img->instances->x += 5;
+	if (mlx_is_key_down(fdf->mlx, 334))
+	{
+		fdf->zoom += 1;
+		remake(1, fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, 333))
+	{
+		fdf->zoom -= 1;
+		remake(1, fdf);
+	}
 }
