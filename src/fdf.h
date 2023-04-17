@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:46:26 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 18:41:16 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:05:31 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ void		ft_views(t_fdfvariables	*fdf);
 void		ft_extract_colorandz(char *file, t_fdfvariables *fdf);
 void		ft_picasso_colors(int colors, t_fdfvariables *fdf);
 void		remake(int reset, t_fdfvariables *fdf);
-
+void		scroll_hook(double xdelta, double ydelta, void *param);
+void		rotation_cursor_hook(double x2, double y2, t_fdfvariables *fdf);
+void		cursor_hook(double x2, double y2, void *param);
+void		keyboard_hooks(void *param);
 #endif

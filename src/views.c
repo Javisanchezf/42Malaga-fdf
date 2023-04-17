@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 18:29:47 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:06:23 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	ft_views(t_fdfvariables	*fdf)
 		coord.z = (fdf->map[i].z * fdf->zoom * fdf->z_zoom) * \
 		cos(fdf->radians2) \
 		+ ((i / fdf->map_width) * fdf->zoom) * sin(fdf->radians2);
-
 		ft_set_coords(i, coord, fdf);
 	}
 	ft_normalize(fdf);
