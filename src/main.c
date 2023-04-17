@@ -6,32 +6,11 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 20:43:38 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:28:47 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:27:38 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	remake(int reset, t_fdfvariables *fdf)
-{
-	if (reset == 0)
-	{
-		fdf->z_max = 0;
-		fdf->zoom = 0;
-		fdf->z_zoom = 0.4;
-		fdf->x_zoom = 1;
-		fdf->radians = 0;
-		fdf->radians2 = 0;
-	}
-	ft_views(fdf);
-	mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
-	ft_picasso(fdf);
-}
-
-void	ft_leaks(void)
-{
-	system("leaks -q fdf");
-}
 
 int32_t	ft_w_center(const uint32_t n1, const uint32_t n2)
 {
@@ -44,7 +23,6 @@ int32_t	main(int narg, char **argv)
 {
 	t_fdfvariables	fdf;
 
-	atexit(ft_leaks);
 	if (narg != 2 || !argv[1])
 		return (1);
 	ft_map_construct(argv[1], &fdf);

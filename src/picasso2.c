@@ -6,11 +6,27 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:03:23 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 18:47:59 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:27:13 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	remake(int reset, t_fdfvariables *fdf)
+{
+	if (reset == 0)
+	{
+		fdf->z_max = 0;
+		fdf->zoom = 0;
+		fdf->z_zoom = 0.4;
+		fdf->x_zoom = 1;
+		fdf->radians = 0;
+		fdf->radians2 = 0;
+	}
+	ft_views(fdf);
+	mlx_resize_image(fdf->img, fdf->window_width, fdf->window_height);
+	ft_picasso(fdf);
+}
 
 void	ft_piccaso_brush(uint8_t r, uint8_t g, uint8_t b, t_fdfmap	*map)
 {
