@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 17:26:07 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:39:19 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:09:33 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,26 @@ void	modify_form_hook(t_fdfvariables *fdf)
 
 void	keyboard_others_hook(t_fdfvariables *fdf)
 {
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
-		fdf->img->instances->y -= 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
-		fdf->img->instances->y += 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
-		fdf->img->instances->x -= 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
-		fdf->img->instances->x += 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(fdf->mlx);
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_Y))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_4))
 	{
 		fdf->radians += 1 * M_PI / 180.0;
 		remake(1, fdf);
 	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_H))
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_6))
 	{
 		fdf->radians -= 1 * M_PI / 180.0;
+		remake(1, fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_8))
+	{
+		fdf->radians2 += 1 * M_PI / 180.0;
+		remake(1, fdf);
+	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_KP_2))
+	{
+		fdf->radians2 -= 1 * M_PI / 180.0;
 		remake(1, fdf);
 	}
 }
@@ -105,4 +107,12 @@ void	keyboard_hooks(void *param)
 	views_hook(fdf);
 	modify_form_hook(fdf);
 	keyboard_others_hook(fdf);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
+		fdf->img->instances->y -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
+		fdf->img->instances->y += 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
+		fdf->img->instances->x -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
+		fdf->img->instances->x += 5;
 }
