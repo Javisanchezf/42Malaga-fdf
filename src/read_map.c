@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:51:20 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/15 17:12:59 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:34:52 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_readmap(int fd, t_fdfvariables *fdf)
 	fdf->map_width = ft_count_words(line);
 	while (line && ++fdf->map_height)
 	{
-		if (fdf->map_width != ft_count_words(line))
+		if (fdf->map_width != ft_count_words(line) || fdf->map_width == 0)
 			ft_error("The file does not contain a valid map.", 2, aux, line);
 		aux = ft_freeandjoin(aux, line);
 		line = get_next_line(fd);
