@@ -98,7 +98,7 @@ This library have been tested by several students from Fundación 42 following t
 	- https://en.wikipedia.org/wiki/Rotation_matrix
 	- https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 ## Tips
-Perspectives:
+Perspectives to convert in FDF:
 - Isometric
 	- Xi =  x * cos(30º) + y * sen(30º)
 	- Yi =  x * sen(30º) + y * cos(30º) - z
