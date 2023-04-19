@@ -33,16 +33,16 @@ The code in this repository follows [the rules of the Norminette](https://github
 This is the result of the program:
 
 <div id="header" align = center>
-  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/earth1fdf.png" width="200"/>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/blob/main/images/earth1fdf.png" width="200"/>
 </div>
 <div id="header" align = center>
-  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/earth2fdf.png" width="200"/>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/blob/main/images/earth2fdf.png" width="200"/>
 </div>
 <div id="header" align = center>
-  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/juliafdf.png" width="200"/>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/blob/main/images/juliafdf.png" width="200"/>
 </div>
 <div id="header" align = center>
-  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/t2fdf.png" width="200"/>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/blob/main/images/t2fdf.png" width="200"/>
 </div>
 
 ## Requirements
