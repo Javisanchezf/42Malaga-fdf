@@ -6,7 +6,7 @@
 /*   By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:14:50 by javiersa          #+#    #+#             */
-/*   Updated: 2023/04/17 19:20:23 by javiersa         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:52:46 by javiersa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	ft_set_coords(int i, t_coords c, t_fdfvariables *fdf)
 		fdf->map[i].x_draw = (c.x - 0.71 * c.z) - 0.71 * (c.y - 0.71 * c.z);
 		fdf->map[i].y_draw = (c.y - 0.71 * c.z);
 	}
-	else if (fdf->view == 'F')
+	else if (fdf->view == 'T')
 	{
 		fdf->map[i].x_draw = c.x;
 		fdf->map[i].y_draw = c.y;
 	}
-	else if (fdf->view == 'T')
+	else if (fdf->view == 'F')
 	{
 		fdf->map[i].x_draw = c.y + c.x;
 		fdf->map[i].y_draw = -c.z;
