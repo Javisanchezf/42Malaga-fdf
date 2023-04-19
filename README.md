@@ -2,7 +2,7 @@
   <img src="https://github.com/Javisanchezf/media/blob/main/pc-gif.webp" width="200"/>
 </div>
 
-<h1 align = center>42 Malaga FDF by javisanchezf</h1>
+<h1 align = center>42 Malaga FDF</h1>
 
 > School 42 Málaga cursus project.
 
