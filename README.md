@@ -30,6 +30,21 @@ FDF is a project that aims to create a simple 3D height-map renderer. The progra
 
 The code in this repository follows [the rules of the Norminette](https://github.com/Javisanchezf/42Malaga-pdfs/blob/master/norme.pdf).
 
+This is the result of the program:
+
+<div id="header" align = center>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/earth1fdf.png" width="200"/>
+</div>
+<div id="header" align = center>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/earth2fdf.png" width="200"/>
+</div>
+<div id="header" align = center>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/juliafdf.png" width="200"/>
+</div>
+<div id="header" align = center>
+  <img src="https://github.com/Javisanchezf/42Malaga-fdf/images/t2fdf.png" width="200"/>
+</div>
+
 ## Requirements
 The project is written in __C language__ and needs:
 - Compiler `gcc`.
