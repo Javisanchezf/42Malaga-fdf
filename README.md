@@ -61,7 +61,7 @@ The project is written in __C language__ and needs:
 
 To download the repository, go to the console and run:
 ```
-git clone https://github.com/Javisanchezf/42Malaga-fdf.git
+git clone --recursive https://github.com/Javisanchezf/42Malaga-fdf.git
 cd 42Malaga-libft
 ```
 
