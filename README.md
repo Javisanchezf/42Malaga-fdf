@@ -61,8 +61,8 @@ The project is written in __C language__ and needs:
 
 To download the repository, go to the console and run:
 ```
-git clone https://github.com/Javisanchezf/42Malaga-fdf.git
-cd 42Malaga-libft
+git clone --recursive https://github.com/Javisanchezf/42Malaga-fdf.git
+cd 42Malaga-fdf
 ```
 
 ### 2. Compiling the library
@@ -127,7 +127,7 @@ Under the following terms:
 
 <h3 align = right>Share the content!</h3>
 
-[<img src="https://github.com/Javisanchezf/media/blob/main/whatsapp-icon.png" width="50" height="50" align = right></img>](https://api.whatsapp.com/send?text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github.%20%0ahttps://github.com/Javisanchezf/42Malaga-Libft)
-[<img src="https://github.com/Javisanchezf/media/blob/main/telegram-icon.webp" width="50" height="50" align = right></img>](https://t.me/share/url?url=https://github.com/javisanchezf/42Malaga-Libft&text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github.)
-[<img src="https://github.com/Javisanchezf/media/blob/main/twitter-icon.png" width="50" height="50" align = right></img>](https://twitter.com/intent/tweet?url=https://github.com/Javisanchezf/42Malaga-Libft&text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github)
-[<img src="https://github.com/Javisanchezf/media/blob/main/linkedin-icon.png" width="50" height="50" align = right></img>](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/javisanchezf/42Malaga-Libft)
+[<img src="https://github.com/Javisanchezf/media/blob/main/whatsapp-icon.png" width="50" height="50" align = right></img>](https://api.whatsapp.com/send?text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github.%20%0ahttps://github.com/Javisanchezf/42Malaga-fdf)
+[<img src="https://github.com/Javisanchezf/media/blob/main/telegram-icon.webp" width="50" height="50" align = right></img>](https://t.me/share/url?url=https://github.com/javisanchezf/42Malaga-fdf&text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github.)
+[<img src="https://github.com/Javisanchezf/media/blob/main/twitter-icon.png" width="50" height="50" align = right></img>](https://twitter.com/intent/tweet?url=https://github.com/Javisanchezf/42Malaga-fdf&text=Hey!%20Check%20out%20this%20cool%20repository%20I%20found%20on%20Github)
+[<img src="https://github.com/Javisanchezf/media/blob/main/linkedin-icon.png" width="50" height="50" align = right></img>](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/javisanchezf/42Malaga-fdf)
