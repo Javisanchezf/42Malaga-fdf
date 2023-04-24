@@ -118,7 +118,7 @@ Conversions:
 
 To use angles:
 
-* At the beginning angle1 = angle2 = 0º, and to rotate the figure you only have to vary those angles.
+At the beginning angle1 = angle2 = 0º, and to rotate the figure you only have to vary those angles.
 - x (With angles) = x * cos(angle1) - y * sin(angle1)
 - y (With angles) = x * sin(angle1) + y * cos(angle1) * cos(angle2) - z * sin(angle2)
 - z (With angles) = y * sin(angle2) - z * cos(angle2)
