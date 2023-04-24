@@ -99,6 +99,15 @@ This library have been tested by several students from Fundación 42 following t
 	- https://en.wikipedia.org/wiki/Rotation_matrix
 	- https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 ## Tips
+
+To rotate the figure:
+
+At the beginning angle1 = angle2 = 0º, and to rotate the figure you only have to vary those angles.
+- x (With angles) = x * cos(angle1) - y * sin(angle1)
+- y (With angles) = x * sin(angle1) + y * cos(angle1) * cos(angle2) - z * sin(angle2)
+- z (With angles) = y * sin(angle2) - z * cos(angle2)
+
+
 Perspectives to convert in FDF:
 - Isometric
 	- Xi =  x * cos(30º) + y * sen(30º)
@@ -115,13 +124,6 @@ Perspectives to convert in FDF:
 
 Conversions:
 - 1 ° × π / 180 = 0,01745 rad
-
-To use angles:
-
-At the beginning angle1 = angle2 = 0º, and to rotate the figure you only have to vary those angles.
-- x (With angles) = x * cos(angle1) - y * sin(angle1)
-- y (With angles) = x * sin(angle1) + y * cos(angle1) * cos(angle2) - z * sin(angle2)
-- z (With angles) = y * sin(angle2) - z * cos(angle2)
 
 ## License
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
