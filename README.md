@@ -73,13 +73,22 @@ To compile the library, go to its path and run:
 make
 ```
 
+
 ### 3. Cleaning all binary (.o) executable files (.a) and the program
 
 To delete all files generated with make, go to the path and run:
 ```
 make fclean
 ```
+If you have a fault, it is possible that you do not meet the aforementioned requirements. The most common is not having libtool installed, you can do it by:
+```
+brew install libtool
+```
 
+If you don't want to install libtool or you have an ubuntu device you can run the program but the library will be created every time you run the command:
+```
+make nolibtool
+```
 ### 4. Using it
 
 
