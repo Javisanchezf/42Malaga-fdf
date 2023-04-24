@@ -93,6 +93,7 @@ This library have been tested by several students from Fundación 42 following t
 
 ## References
 - MLX42	by codam: https://github.com/codam-coding-college/MLX42
+- MLX42 guide https://harm-smits.github.io/42docs/libs/minilibx
 - 42 Map generator https://github.com/jgigault/42MapGenerator
 - Others
 	- https://en.wikipedia.org/wiki/Rotation_matrix
@@ -112,6 +113,14 @@ Perspectives to convert in FDF:
 	- Xf = x + y
 	- Yf = -z
 
+Conversions:
+- 1 ° × π / 180 = 0,01745 rad
+
+To use angles:
+At the beginning angle1 = angle2 = 0º, and to rotate the figure you only have to vary those angles.
+- x (With angles) = x * cos(angle1) - y * sin(angle1)
+- y (With angles) = x * sin(angle1) + y * cos(angle1) * cos(angle2) - z * sin(angle2)
+- z (With angles) = y * sin(angle2) - z * cos(angle2)
 
 ## License
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
