@@ -53,7 +53,7 @@ The project is written in __C language__ and needs:
 	- `<unistd.h>`
 	- `<stdlib.h>`
 	- `<math.h>`
-- Software development tool `GNU Libtool`.
+- Software development tool `GLFW`.
 
 ## Instructions
 
@@ -72,14 +72,9 @@ To compile the library, go to its path and run:
 ```
 make
 ```
-If you have a fault, it is possible that you do not meet the aforementioned requirements. The most common is not having libtool installed, you can do it by:
+If you have a fault, it is possible that you do not meet the aforementioned requirements. The most common is not having glfw installed, you can do it by:
 ```
-brew install libtool
-```
-
-If you don't want to install libtool or you have an ubuntu device you can run the program but the library will be created every time you run the command:
-```
-make nolibtool
+brew install glfw
 ```
 
 ### 3. Cleaning all binary (.o) executable files (.a) and the program

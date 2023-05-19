@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: javiersa <javiersa@student.42malaga.com    +#+  +:+       +#+         #
+#    By: javiersa <javiersa@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/29 22:02:32 by javiersa          #+#    #+#              #
-#    Updated: 2023/04/24 21:23:47 by javiersa         ###   ########.fr        #
+#    Updated: 2023/05/19 22:14:55 by javiersa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,30 +69,28 @@ mlx42fclean:
 	@make fclean -C $(MLX42)
 mlx42re: libftplusclean libftplusmake
 
-submodules:
-	@git submodule update --init --recursive
-	@echo "$(GREEN)The submodules have been created and updated successfully.$(DEFAULT)"
-
-.PHONY : all clean fclean re bonus compile git gitignore submodules \
-	libftplusmake libftplusclean libftplusfclean libftplusre
-
 #Personal use
 git: fclean gitignore
 	@git add *
-	@echo "$(BOLD)$(YELLOW)Git:$(WHITE) Adding all archives.$(DEFAULT)"
-	@git commit -m "Little changes"
-	@echo "$(BOLD)$(CYAN)Git:$(WHITE) Commit this changes with "Little changes".$(DEFAULT)"
-	@git push
-	@echo "$(BOLD)$(GREEN)Git:$(WHITE) Pushing all changes.$(DEFAULT)"
+	@echo "$(BOLD)$(YELLOW)Git ($(GIT_BRANCH)):$(WHITE) Adding all archives.$(DEFAULT)"
+	@git commit -m "[$(DATETIME)] - Little changes by $(USER)"
+	@echo "$(BOLD)$(CYAN)Git ($(GIT_BRANCH)):$(WHITE) Commit this changes in brunch\
+	 $(GIT_BRANCH) with "[$(DATETIME)] - Little changes by $(USER)".$(DEFAULT)"
+	@git push --set-upstream origin $(GIT_BRANCH)
+	@echo "$(BOLD)$(GREEN)Git ($(GIT_BRANCH)):$(WHITE) Pushing all changes.$(DEFAULT)"
+submodules:
+	@git submodule update --init --recursive
+	@echo "$(GREEN)The submodules have been created and updated successfully.$(DEFAULT)"
 gitignore:
 	@echo ".*\n*.out\n*.o\n*.a">.gitignore
 	@echo "$(GREEN)Creating:$(DEFAULT) Gitignore."
 42prepare: submodules
-	@rm -rf $(LIBFT)/.git
-	@rm -rf $(NEXTILE)/.git
-	@rm -rf $(PRINTF)/.git
-	@rm -rf .git .gitmodules
+	@rm -rf .git*
 	@echo "$(GREEN)All .git removed.$(DEFAULT)"
+valgrind_datarace: $(PROGRAM)
+	valgrind --tool="helgrind" ./$(PROGRAM) $(PARAMS)
+valgrind_leaks: $(PROGRAM)
+	valgrind --leak-check=full -s ./$(PROGRAM) $(PARAMS)
 
 #COLORS
 BOLD	:= \033[1m
@@ -105,3 +103,7 @@ MAGENTA	:= \033[35;1m
 CYAN	:= \033[36;1m
 WHITE	:= \033[37;1m
 DEFAULT	:= \033[0m
+
+.PHONY : all clean fclean re \
+libftplusmake libftplusclean libftplusfclean libftplusre \
+git submodules gitignore 42prepare valgrind_datarace valgrind_leaks
